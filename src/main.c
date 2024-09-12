@@ -3,10 +3,18 @@
 int	main(void)
 {
 	t_data	*d;
-	char	*user;
 	
-	user = get_prompt();
 	d = init_data();
-	printf("%s\n", user);
+	while (true)
+	{
+		d->input = readline(d->prompt);
+		if (d->input)
+		{
+			//executor(d);
+			free(d->input);
+		}
+
+	}
+	free_data(d);
 	return (0);
 }
