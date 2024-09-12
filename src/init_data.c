@@ -10,5 +10,6 @@ t_data	*init_data(void)
 	d = malloc(sizeof(t_data));
 	if (!d)
 		return (NULL);
+	d->prompt = get_prompt();
 	return (d);
 }
