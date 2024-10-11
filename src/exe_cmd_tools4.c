@@ -7,15 +7,15 @@ void	reset_env(t_mini *m, char **new_env, int tar_idx)
 
 	i = -1;
 	while (++i != tar_idx)
-		new_env[i] = environ[i];
-	while (environ[i + 1])
+		new_env[i] = __environ[i];
+	while (__environ[i + 1])
 	{
-		new_env[i] = environ[i + 1];
+		new_env[i] = __environ[i + 1];
 		i++;
 	}
 	new_env[i] = NULL;
-	ft_free(environ[tar_idx], m->mem_env);
-	environ = new_env;
+	ft_free(__environ[tar_idx], m->mem_env);
+	__environ = new_env;
 }
 
 bool	env_size_dec(t_mini *m, char *target, int tar_len)
@@ -26,10 +26,10 @@ bool	env_size_dec(t_mini *m, char *target, int tar_len)
 
 	tar_idx = -1;
 	i = 0;
-	while (environ[i])
+	while (__environ[i])
 	{
-		if (ft_strncmp(environ[i], target, tar_len) == 0)
-			if (environ[i][tar_len] == '=')
+		if (ft_strncmp(__environ[i], target, tar_len) == 0)
+			if (__environ[i][tar_len] == '=')
 				tar_idx = i;
 		i++;
 	}

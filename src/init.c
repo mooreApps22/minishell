@@ -40,7 +40,7 @@ bool	env_init(t_mini *m)
 	int		env_size;
 
 	i = 0;
-	while (environ[i])
+	while (__environ[i])
 		i++;
 	env_tmp = ft_malloc(sizeof(char *) * ++i, m->mem_env);
 	if (!env_tmp)
@@ -49,14 +49,14 @@ bool	env_init(t_mini *m)
 	j = 0;
 	while (j < i - 1)
 	{
-		env_size = ft_strlen(environ[j]) + 1;
+		env_size = ft_strlen(__environ[j]) + 1;
 		env_tmp[j] = ft_malloc(env_size, m->mem_env);
 		if (!env_tmp[j])
 			return (1);
-		ft_strlcpy(env_tmp[j], environ[j], env_size);
+		ft_strlcpy(env_tmp[j], __environ[j], env_size);
 		j++;
 	}
 	env_tmp[j] = NULL;
-	environ = env_tmp;
+	__environ = env_tmp;
 	return (0);
 }

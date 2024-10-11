@@ -95,7 +95,7 @@ void	b_env(t_mini *m, int idx)
 		exit(1);
 	}
 	i = 0;
-	while (environ[i])
-		printf("%s\n", environ[i++]);
+	while (__environ[i])
+		printf("%s\n", __environ[i++]);
 	exit(0);
 }

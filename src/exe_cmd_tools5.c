@@ -22,7 +22,7 @@ static void	no_such_file(char *cmd)
 static void	exe_absolute(t_mini *m, int idx)
 {
 	check_if_dir(m->exe[idx].args[0]);
-	execve(m->exe[idx].args[0], m->exe[idx].args, environ);
+	execve(m->exe[idx].args[0], m->exe[idx].args, __environ);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(m->exe[idx].args[0], 2);
 	ft_putstr_fd(": ", 2);
@@ -50,7 +50,7 @@ static void	exe_path(t_mini *m, int idx)
 		check_if_dir(path[i]);
 		if (access(path[i], X_OK) == 0)
 		{
-			execve(path[i], m->exe[idx].args, environ);
+			execve(path[i], m->exe[idx].args, __environ);
 			perror("minishell");
 			exit(errno);
 		}
