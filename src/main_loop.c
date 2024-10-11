@@ -56,10 +56,10 @@ void	main_loop(t_mini *m)
 			continue ;
 		}
 		add_history(m->input);
-		if (g_sig == SIGINT)
+		if (g_signal == SIGINT)
 		{
 			m->end_stat = 1;
-			g_sig = 0;
+			g_signal = 0;
 		}
 		main_loop_process(m);
 	}

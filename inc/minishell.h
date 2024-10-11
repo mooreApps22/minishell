@@ -18,7 +18,7 @@
 # include "../libft/include/libft.h"
 # define PROMPT "minishell$ "
 
-extern int					g_sig;
+extern volatile sig_atomic_t	g_signal;
 
 typedef struct s_token		t_token;
 typedef struct s_exe		t_exe;
