@@ -18,7 +18,6 @@
 # include "../libft/include/libft.h"
 # define PROMPT "minishell$ "
 
-//extern char					**environ;
 extern int					g_sig;
 
 typedef struct s_token		t_token;
