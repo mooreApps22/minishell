@@ -35,7 +35,7 @@ void	cd_error(t_mini *m, int idx)
 		perror(m->exe[idx].args[1]);
 	if (m->exe_size != 1)
 		exit(1);
-	m->end_stat = 1;
+	m->exit_status = 1;
 }
 
 void	b_cd(t_mini *m, int idx)
@@ -66,7 +66,7 @@ static void	b_export_error(t_mini *m, char *str)
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
-	m->end_stat = 1;
+	m->exit_status = 1;
 }
 
 void	b_export(t_mini *m, int idx)

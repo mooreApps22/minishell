@@ -86,7 +86,7 @@ typedef struct s_mini
 	t_token			*t_head;
 	t_token			*t_tail;
 	char			*input;
-	long long		end_stat;
+	long long		exit_status;
 	t_exe			*exe;
 	int				exe_size;
 	int				exe_idx;

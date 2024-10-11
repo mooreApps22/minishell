@@ -77,7 +77,7 @@ void	b_pwd(t_mini *m, bool is_print)
 	{
 		m->path = getenv("PWD");
 		printf("%s\n", m->path);
-		m->end_stat = 1;
+		m->exit_status = 1;
 		if (!is_parent(m))
 			exit(1);
 	}

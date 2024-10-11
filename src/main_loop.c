@@ -35,7 +35,7 @@ syntax error near unexpected token `newline'\n", 2);
 		return ;
 	}
 	if (exe(m))
-		m->end_stat = 1;
+		m->exit_status = 1;
 	restart_lp(m);
 }
 
@@ -58,7 +58,7 @@ void	main_loop(t_mini *m)
 		add_history(m->input);
 		if (g_signal == SIGINT)
 		{
-			m->end_stat = 1;
+			m->exit_status = 1;
 			g_signal = 0;
 		}
 		main_loop_process(m);

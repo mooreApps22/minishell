@@ -33,7 +33,7 @@ char	*get_cont(t_mini *m, char *name)
 
 	if (ft_strncmp("?", name, 2) == 0)
 	{
-		cont = ft_ltoa(m->end_stat);
+		cont = ft_ltoa(m->exit_status);
 		ft_lstadd_back(&m->mem, ft_lstnew(cont));
 	}
 	else

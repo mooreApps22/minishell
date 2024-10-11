@@ -56,7 +56,7 @@ bool	exe(t_mini *m)
 	if (!is_parent(m) || m->exe_size != 1)
 	{
 		end_exe(m, &status);
-		m->end_stat = status;
+		m->exit_status = status;
 	}
 	return (0);
 }

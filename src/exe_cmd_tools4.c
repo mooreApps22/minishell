@@ -50,7 +50,7 @@ void	m_unset(t_mini *m, char *target)
 		if (errno == ENOMEM)
 		{
 			perror("minishell: unset:");
-			m->end_stat = errno;
+			m->exit_status = errno;
 			if (m->exe_size != 1)
 				exit(errno);
 		}

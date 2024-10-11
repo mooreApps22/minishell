@@ -55,7 +55,7 @@ int	main(void)
 
 	init_signal();
 	config_terminal(&m);
-	m.end_stat = 0;
+	m.exit_status = 0;
 	m.mem_env = ft_lstnew(NULL);
 	if (!m.mem_env)
 	{

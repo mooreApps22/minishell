@@ -56,7 +56,7 @@ void	exe_rdr(t_mini *m)
 				{
 					ft_putstr_fd("minishell: ", 2);
 					perror(m->exe[i].rdr[j].fn);
-					m->end_stat = errno;
+					m->exit_status = errno;
 					m->exe[i].rdr[j].if_rdr = 0;
 					break ;
 				}

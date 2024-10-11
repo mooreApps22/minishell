@@ -49,7 +49,7 @@ static void	start_exe_rdr(t_mini *m, int idx)
 			m->exe[idx].if_exe = 0;
 		i++;
 	}
-	m->end_stat = 0;
+	m->exit_status = 0;
 }
 
 void	child_process(t_mini *m, int idx)

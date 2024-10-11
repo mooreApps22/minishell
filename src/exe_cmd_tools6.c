@@ -46,7 +46,7 @@ static void	b_exit_subroutine(t_mini *m, int idx, int i, bool is_print)
 			if (!is_print)
 				exit(1);
 			else
-				m->end_stat = 1;
+				m->exit_status = 1;
 		}
 		else if (b_exit_checkover(m->exe[idx].args[1]))
 			b_exit_numerr(m->exe[idx].args[1]);

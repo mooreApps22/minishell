@@ -34,7 +34,7 @@ static void	start_exe_hdc(t_mini *m, t_hdc hdc)
 				break ;
 		if (get_env_str(m, &buf))
 		{
-			m->end_stat = 1;
+			m->exit_status = 1;
 			return ;
 		}
 		hdc_write(hdc, buf);
