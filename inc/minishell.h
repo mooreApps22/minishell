@@ -79,7 +79,7 @@ struct s_exe
 
 typedef struct s_mini
 {
-	struct termios	term_orig;
+	struct termios	terminal;
 	char			*path;
 	int				a_size;
 	int				b_size;
