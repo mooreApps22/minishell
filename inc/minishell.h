@@ -101,13 +101,14 @@ void	main_loop(t_mini *m);
 
 //signal
 void	sig_init(void);
+void	init_signal(void);
 void	end_shell(t_mini *m, int end_code);
 void	read_again(int signum);
 void	sig_int(int signum);
 void	sig_quit(int signum);
 void	sig_block(void);
 void	sig_default(t_mini *m);
-void	get_rid_of_sig(t_mini *m);
+void	config_terminal(t_mini *m);
 void	sig_int_hdc(int signum);
 
 //init

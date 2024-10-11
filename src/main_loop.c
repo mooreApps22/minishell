@@ -7,7 +7,7 @@ void	restart_lp(t_mini *m)
 	free(m->mem);
 	free(m->input);
 	shell_init(m);
-	sig_init();
+	init_signal();
 }
 
 static void	main_loop_process(t_mini *m)
@@ -43,7 +43,7 @@ void	main_loop(t_mini *m)
 {
 	while (1)
 	{
-		get_rid_of_sig(m);
+		config_terminal(m);
 		m->input = readline(PROMPT);
 		if (!m->input)
 		{

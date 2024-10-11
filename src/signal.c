@@ -9,12 +9,6 @@ void	sig_block(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	sig_init(void)
-{
-	signal(SIGINT, read_again);
-	signal(SIGQUIT, SIG_IGN);
-}
-
 void	sig_default(t_mini *m)
 {
 	tcsetattr(STDIN_FILENO, TCSANOW, &m->terminal);
@@ -36,4 +30,10 @@ void	sig_int_hdc(int signum)
 	g_signal = signum;
 	printf("\n");
 	exit(130);
+}
+
+void	init_signal(void)
+{
+	signal(SIGINT, read_again);
+	signal(SIGQUIT, SIG_IGN);
 }

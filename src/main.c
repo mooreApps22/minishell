@@ -37,7 +37,7 @@ static void	start_env(t_mini *m)
 	handle_shell_lv(m);
 }
 
-void	get_rid_of_sig(t_mini *m)
+void	config_terminal(t_mini *m)
 {
 	struct termios	termios;
 
@@ -53,8 +53,8 @@ int	main(void)
 {
 	t_mini	m;
 
-	sig_init();
-	get_rid_of_sig(&m);
+	init_signal();
+	config_terminal(&m);
 	m.end_stat = 0;
 	m.mem_env = ft_lstnew(NULL);
 	if (!m.mem_env)
