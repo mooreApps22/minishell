@@ -10,7 +10,7 @@ static void	get_size(t_mini *m, int idx, t_token *now)
 	ct = 0;
 	while (now)
 	{
-		if (now->type == TYPE_PIPE)
+		if (now->type == PIPE)
 			break ;
 		if (now->type >= 1 && now->type <= 3)
 			ct++;
@@ -21,9 +21,9 @@ static void	get_size(t_mini *m, int idx, t_token *now)
 	now = tmp;
 	while (now)
 	{
-		if (now->type == TYPE_PIPE)
+		if (now->type == PIPE)
 			break ;
-		if (now->type == TYPE_HEREDOC)
+		if (now->type == HEREDOC)
 			ct++;
 		now = now->next;
 	}
@@ -37,9 +37,9 @@ static void	fill_hdc(t_mini *m, int idx, t_token *now)
 	i = 0;
 	while (i < m->exe[idx].hdc_size)
 	{
-		if (now->type == TYPE_FD)
+		if (now->type == FD)
 		{
-			if (now->next->type == TYPE_HEREDOC)
+			if (now->next->type == HEREDOC)
 			{
 				m->exe[idx].hdc[i].fd = ft_atoi(now->cont);
 				now = now->next->next;
@@ -47,7 +47,7 @@ static void	fill_hdc(t_mini *m, int idx, t_token *now)
 				i++;
 			}
 		}
-		else if (now->type == TYPE_HEREDOC)
+		else if (now->type == HEREDOC)
 		{
 			m->exe[idx].hdc[i].fd = 0;
 			now = now->next;
@@ -64,9 +64,9 @@ static void	fill_rdr(t_mini *m, int idx, t_token *now)
 	i = 0;
 	while (i < m->exe[idx].rdr_size)
 	{
-		if (now->type == TYPE_FD)
+		if (now->type == FD)
 		{
-			if (now->next->type != TYPE_HEREDOC)
+			if (now->next->type != HEREDOC)
 			{
 				fill_rdr_fd(&(m->exe[idx]), i++, now, now->next->next);
 				now = now->next->next;

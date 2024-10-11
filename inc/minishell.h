@@ -27,16 +27,16 @@ typedef struct s_hdc		t_hdc;
 
 typedef enum e_type
 {
-	TYPE_PIPE,
-	TYPE_REDIR_IN,
-	TYPE_REDIR_OUT,
-	TYPE_REDIR_AP,
-	TYPE_HEREDOC,
-	TYPE_COMMAND,
-	TYPE_ARG,
-	TYPE_FD,
-	TYPE_DELIMETER,
-	TYPE_FILENAME
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_AP,
+	HEREDOC,
+	COMMAND,
+	ARG,
+	FD,
+	DELIMETER,
+	FILENAME
 }	t_type;
 
 struct s_token

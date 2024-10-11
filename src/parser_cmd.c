@@ -8,9 +8,9 @@ static int	get_arg_size(t_token *now)
 	ct = 1;
 	while (now)
 	{
-		if (now->type == TYPE_PIPE)
+		if (now->type == PIPE)
 			break ;
-		if (now->type == TYPE_COMMAND || now->type == TYPE_ARG)
+		if (now->type == COMMAND || now->type == ARG)
 			if (now->cont)
 				if (now->cont[0])
 					ct++;
@@ -26,7 +26,7 @@ static void	fill_args(t_mini *m, int idx, int arg_size, t_token *now)
 	i = 0;
 	while (i < arg_size - 1)
 	{
-		if (now->type == TYPE_COMMAND || now->type == TYPE_ARG)
+		if (now->type == COMMAND || now->type == ARG)
 			if (now->cont)
 				if (now->cont[0])
 					m->exe[idx].args[i++] = now->cont;

@@ -16,7 +16,7 @@ static void	main_loop_process(t_mini *m)
 	{
 		if (m->t_head->next)
 		{
-			if (m->t_tail->type == TYPE_REDIR_IN)
+			if (m->t_tail->type == REDIR_IN)
 				ft_putstr_fd(
 					"minishell: syntax error near unexpected token `<'\n", 2);
 			else

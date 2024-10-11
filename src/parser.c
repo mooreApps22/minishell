@@ -10,7 +10,7 @@ static int	ct_exe_size(t_mini *m)
 	now = m->t_head->next;
 	while (now)
 	{
-		if (now->type == TYPE_PIPE)
+		if (now->type == PIPE)
 			ct++;
 		now = now->next;
 	}

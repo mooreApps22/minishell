@@ -3,17 +3,17 @@
 
 static void	type_cmd_dlt_fn(t_token *now, t_token *prev)
 {
-	if (prev->type == TYPE_PIPE || prev->type == TYPE_FILENAME)
-		now->type = TYPE_COMMAND;
-	else if (prev->type == TYPE_DELIMETER)
-		now->type = TYPE_COMMAND;
-	else if (prev->type == TYPE_HEREDOC)
-		now->type = TYPE_DELIMETER;
-	else if (prev->type == TYPE_REDIR_AP
-		|| prev->type == TYPE_REDIR_IN || prev->type == TYPE_REDIR_OUT)
-		now->type = TYPE_FILENAME;
+	if (prev->type == PIPE || prev->type == FILENAME)
+		now->type = COMMAND;
+	else if (prev->type == DELIMETER)
+		now->type = COMMAND;
+	else if (prev->type == HEREDOC)
+		now->type = DELIMETER;
+	else if (prev->type == REDIR_AP
+		|| prev->type == REDIR_IN || prev->type == REDIR_OUT)
+		now->type = FILENAME;
 	else
-		now->type = TYPE_ARG;
+		now->type = ARG;
 }
 
 //change prev type
@@ -25,7 +25,7 @@ static bool	type_fd(t_token *prev, int pos)
 		return (0);
 	if (prev->end_pos + 1 != pos)
 		return (0);
-	prev->type = TYPE_FD;
+	prev->type = FD;
 	return (1);
 }
 
@@ -36,17 +36,17 @@ static void	type_init(t_mini *m, t_token **now, t_token **prev)
 		return ;
 	if ((*now)->next)
 	{
-		if ((*now)->next->type == TYPE_REDIR_OUT
-			|| (*now)->next->type == TYPE_REDIR_AP)
+		if ((*now)->next->type == REDIR_OUT
+			|| (*now)->next->type == REDIR_AP)
 		{
 			if (!type_fd((*now), (*now)->next->pos))
-				(*now)->type = TYPE_COMMAND;
+				(*now)->type = COMMAND;
 		}
 		else if ((*now)->end_pos != -1)
-			(*now)->type = TYPE_COMMAND;
+			(*now)->type = COMMAND;
 	}
 	else if ((*now)->end_pos != -1)
-		(*now)->type = TYPE_COMMAND;
+		(*now)->type = COMMAND;
 	*prev = *now;
 	(*now) = (*now)->next;
 }
@@ -59,13 +59,13 @@ void	type(t_mini *m)
 	type_init(m, &now, &prev);
 	while (now)
 	{
-		if (prev->type != TYPE_COMMAND && now->end_pos != -1)
+		if (prev->type != COMMAND && now->end_pos != -1)
 			type_cmd_dlt_fn(now, prev);
-		else if ((prev->type == TYPE_ARG || prev->type == TYPE_COMMAND)
+		else if ((prev->type == ARG || prev->type == COMMAND)
 			&& (now->type >= 1 && now->type <= 4))
 			type_fd(prev, now->pos);
 		else if (now->end_pos != -1)
-			now->type = TYPE_ARG;
+			now->type = ARG;
 		prev = now;
 		now = now->next;
 	}

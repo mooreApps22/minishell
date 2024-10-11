@@ -10,7 +10,7 @@ static bool	new_tok(t_mini *m, char *cont, int size, int idx)
 		return (1);
 	new_tok->next = NULL;
 	new_tok->cont = NULL;
-	new_tok->type = TYPE_ARG;
+	new_tok->type = ARG;
 	m->t_tail->next = new_tok;
 	m->t_tail = new_tok;
 	m->b_size++;

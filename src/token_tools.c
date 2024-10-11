@@ -77,7 +77,7 @@ static bool	new_tok(t_mini *m, int idx)
 	new_tok->cont[1] = '\0';
 	new_tok->end_pos = -1;
 	new_tok->pos = idx;
-	new_tok->type = TYPE_PIPE;
+	new_tok->type = PIPE;
 	new_tok->is_div = 0;
 	return (0);
 }

@@ -25,14 +25,14 @@ static bool	right_shift(t_mini *m, int *i)
 	{
 		if (new_tok(m, *i))
 			return (1);
-		m->t_tail->type = TYPE_REDIR_AP;
+		m->t_tail->type = REDIR_AP;
 		(*i)++;
 	}
 	else
 	{
 		if (new_tok(m, *i))
 			return (1);
-		m->t_tail->type = TYPE_REDIR_OUT;
+		m->t_tail->type = REDIR_OUT;
 	}
 	return (0);
 }
@@ -43,14 +43,14 @@ static bool	left_shift(t_mini *m, int *i)
 	{
 		if (new_tok(m, *i))
 			return (1);
-		m->t_tail->type = TYPE_HEREDOC;
+		m->t_tail->type = HEREDOC;
 		(*i)++;
 	}
 	else
 	{
 		if (new_tok(m, *i))
 			return (1);
-		m->t_tail->type = TYPE_REDIR_IN;
+		m->t_tail->type = REDIR_IN;
 	}
 	return (0);
 }

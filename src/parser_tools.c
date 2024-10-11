@@ -5,7 +5,7 @@ t_token	*next_pipe(t_token *now)
 {
 	while (now)
 	{
-		if (now->type == TYPE_PIPE)
+		if (now->type == PIPE)
 			break ;
 		now = now->next;
 	}
@@ -36,9 +36,9 @@ bool	rdr_malloc(t_mini *m, int idx)
 
 void	fill_rdr_nfd(t_exe *exe, int idx, t_token *type, t_token *fn)
 {
-	if (type->type == TYPE_REDIR_AP || type->type == TYPE_REDIR_OUT)
+	if (type->type == REDIR_AP || type->type == REDIR_OUT)
 		exe->rdr[idx].fd = 1;
-	if (type->type == TYPE_REDIR_IN)
+	if (type->type == REDIR_IN)
 		exe->rdr[idx].fd = 0;
 	exe->rdr[idx].type = type->type;
 	exe->rdr[idx].fn = fn->cont;

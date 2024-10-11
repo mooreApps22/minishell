@@ -24,7 +24,7 @@ static	bool	new_tok(t_mini *m, char *cont, t_token *prev, t_token *now)
 		return (1);
 	new_tok->next = now->next;
 	new_tok->cont = cont;
-	new_tok->type = TYPE_ARG;
+	new_tok->type = ARG;
 	prev->next = new_tok;
 	if (prev == m->t_tail)
 		m->t_tail = new_tok;

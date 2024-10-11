@@ -19,7 +19,7 @@ static bool	new_tok(t_mini *m, int size, int pos)
 	ft_strlcpy(new_tok->cont, m->input + pos + 1, size);
 	new_tok->end_pos = pos + size;
 	new_tok->pos = pos;
-	new_tok->type = TYPE_ARG;
+	new_tok->type = ARG;
 	i = 0;
 	while (i <= size)
 	{

@@ -18,19 +18,19 @@ bool	is_parent(t_mini *m)
 
 static bool	open_rdr(t_rdr *rdr)
 {
-	if (rdr->type == TYPE_REDIR_OUT)
+	if (rdr->type == REDIR_OUT)
 	{
 		rdr->o_fd = open(rdr->fn, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (rdr->o_fd == -1)
 			return (1);
 	}
-	else if (rdr->type == TYPE_REDIR_AP)
+	else if (rdr->type == REDIR_AP)
 	{
 		rdr->o_fd = open(rdr->fn, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (rdr->o_fd == -1)
 			return (1);
 	}
-	else if (rdr->type == TYPE_REDIR_IN)
+	else if (rdr->type == REDIR_IN)
 	{
 		rdr->o_fd = open(rdr->fn, O_RDONLY);
 		if (rdr->o_fd == -1)
