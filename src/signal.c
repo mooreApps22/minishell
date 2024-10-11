@@ -17,7 +17,7 @@ void	sig_init(void)
 
 void	sig_default(t_mini *m)
 {
-	tcsetattr(STDIN_FILENO, TCSANOW, &m->term_orig);
+	tcsetattr(STDIN_FILENO, TCSANOW, &m->terminal);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }

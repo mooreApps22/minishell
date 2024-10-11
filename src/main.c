@@ -41,9 +41,9 @@ void	get_rid_of_sig(t_mini *m)
 {
 	struct termios	termios;
 
-	ft_memset(&m->term_orig, 0, sizeof(m->term_orig));
-	tcgetattr(STDIN_FILENO, &m->term_orig);
-	termios = m->term_orig;
+	ft_memset(&m->terminal, 0, sizeof(m->terminal));
+	tcgetattr(STDIN_FILENO, &m->terminal);
+	termios = m->terminal;
 	termios.c_lflag &= ~ECHOCTL;
 	termios.c_lflag |= (ECHO | ICANON | ISIG);
 	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
