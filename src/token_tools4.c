@@ -1,5 +1,5 @@
 
-#include "../inc/tokenizer.h"
+#include "../inc/tokens.h"
 
 static void	type_cmd_dlt_fn(t_token *now, t_token *prev)
 {
@@ -9,7 +9,7 @@ static void	type_cmd_dlt_fn(t_token *now, t_token *prev)
 		now->type = COMMAND;
 	else if (prev->type == HEREDOC)
 		now->type = DELIMETER;
-	else if (prev->type == REDIR_AP
+	else if (prev->type == APPEND
 		|| prev->type == REDIR_IN || prev->type == REDIR_OUT)
 		now->type = FILENAME;
 	else
@@ -37,7 +37,7 @@ static void	type_init(t_mini *m, t_token **now, t_token **prev)
 	if ((*now)->next)
 	{
 		if ((*now)->next->type == REDIR_OUT
-			|| (*now)->next->type == REDIR_AP)
+			|| (*now)->next->type == APPEND)
 		{
 			if (!type_fd((*now), (*now)->next->pos))
 				(*now)->type = COMMAND;

@@ -1,7 +1,7 @@
 
 #include "../inc/minishell.h"
 
-static void	handle_shell_lv(t_mini *m)
+static void	nested_shell_count(t_mini *m)
 {
 	char	*tmp;
 	int		lv;
@@ -20,7 +20,7 @@ static void	handle_shell_lv(t_mini *m)
 	ft_lstlast(m->mem_env)->next = ft_lstnew(tmp);
 }
 
-static void	start_env(t_mini *m)
+static void	load_env_variables(t_mini *m)
 {
 	char	*tmp;
 
@@ -34,7 +34,7 @@ static void	start_env(t_mini *m)
 	}
 	m_export(m, tmp, NULL);
 	ft_lstlast(m->mem_env)->next = ft_lstnew(tmp);
-	handle_shell_lv(m);
+	nested_shell_count(m);
 }
 
 void	config_terminal(t_mini *m)
@@ -62,13 +62,13 @@ int	main(void)
 		perror("minishell");
 		exit(1);
 	}
-	shell_init(&m);
-	if (env_init(&m))
+	init_minishell(&m);
+	if (init_environment(&m))
 	{
 		perror("minishell");
 		exit(1);
 	}
-	start_env(&m);
+	load_env_variables(&m);
 	main_loop(&m);
 	ft_free_all(m.mem_env);
 	exit(0);

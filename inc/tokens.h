@@ -1,6 +1,6 @@
 
-#ifndef TOKENIZER_H
-# define TOKENIZER_H
+#ifndef TOKENS_H
+# define TOKENS_H
 
 # include "minishell.h"
 
@@ -12,11 +12,12 @@ typedef struct s_sort
 	int		idx_b;
 }				t_sort;
 
-bool	quote(t_mini *m);
-bool	normal(t_mini *m);
+bool	quoting(t_mini *m);
+bool	tokenize_input(t_mini *m);
 bool	redir(t_mini *m);
 void	sort(t_mini *m);
-bool	minishell_strtok(t_mini *m, char *str, char *charset);
+bool	extract_tokens(t_mini *m, char *str, char *delims);
+
 bool	join(t_mini *m);
 bool	pipeline(t_mini *m);
 void	type(t_mini *m);

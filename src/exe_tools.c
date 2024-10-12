@@ -24,7 +24,7 @@ static bool	open_rdr(t_rdr *rdr)
 		if (rdr->o_fd == -1)
 			return (1);
 	}
-	else if (rdr->type == REDIR_AP)
+	else if (rdr->type == APPEND)
 	{
 		rdr->o_fd = open(rdr->fn, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (rdr->o_fd == -1)

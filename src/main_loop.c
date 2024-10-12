@@ -1,42 +1,39 @@
 
 #include "../inc/minishell.h"
 
-void	restart_lp(t_mini *m)
+void	re_init_minishell(t_mini *m)
 {
 	ft_free_all(m->mem);
 	free(m->mem);
 	free(m->input);
-	shell_init(m);
+	init_minishell(m);
 	init_signal();
 }
 
 static void	main_loop_process(t_mini *m)
 {
-	if (tokenize(m))
+	if (make_tokens(m))
 	{
 		if (m->t_head->next)
 		{
 			if (m->t_tail->type == REDIR_IN)
-				ft_putstr_fd(
-					"minishell: syntax error near unexpected token `<'\n", 2);
+				ft_putstr_fd(SYNTAX_ERR1, 2);
 			else
-				ft_putstr_fd(
-					"minishell:\
-syntax error near unexpected token `newline'\n", 2);
+				ft_putstr_fd(SYNTAX_ERR2, 2);
 		}
-		restart_lp(m);
+		re_init_minishell(m);
 		return ;
 	}
 	if (parse(m))
 	{
 		ft_putstr_fd(
 			"minishell: parsing error\n", 2);
-		restart_lp(m);
+		re_init_minishell(m);
 		return ;
 	}
 	if (exe(m))
 		m->exit_status = 1;
-	restart_lp(m);
+	re_init_minishell(m);
 }
 
 void	main_loop(t_mini *m)
@@ -52,7 +49,7 @@ void	main_loop(t_mini *m)
 		}
 		if (m->input[0] == '\0')
 		{
-			restart_lp(m);
+			re_init_minishell(m);
 			continue ;
 		}
 		add_history(m->input);

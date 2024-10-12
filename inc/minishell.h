@@ -17,6 +17,8 @@
 # include <fcntl.h>
 # include "../libft/include/libft.h"
 # define PROMPT "minishell$ "
+# define SYNTAX_ERR1 "minishell: syntax error near unexpected token `<'\n"
+# define SYNTAX_ERR2 "minishell: syntax error near unexpected token `newline'\n"
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -30,7 +32,7 @@ typedef enum e_type
 	PIPE,
 	REDIR_IN,
 	REDIR_OUT,
-	REDIR_AP,
+	APPEND,
 	HEREDOC,
 	COMMAND,
 	ARG,
@@ -80,43 +82,42 @@ struct s_exe
 typedef struct s_mini
 {
 	struct termios	terminal;
+	long long		exit_status;
+	t_list			*mem_env;
+	t_list			*mem;
+	t_token			*t_head;
+	t_token			*t_tail;
+	int				exe_idx;
+	int				exe_size;
+	bool			is_print_sig;
 	char			*path;
 	int				a_size;
 	int				b_size;
-	t_token			*t_head;
-	t_token			*t_tail;
 	char			*input;
-	long long		exit_status;
 	t_exe			*exe;
-	int				exe_size;
-	int				exe_idx;
 	int				env_size;
-	t_list			*mem;
-	t_list			*mem_env;
-	bool			is_print_sig;
 }				t_mini;
 
 //loop
 void	main_loop(t_mini *m);
 
 //signal
-void	sig_init(void);
 void	init_signal(void);
 void	end_shell(t_mini *m, int end_code);
 void	read_again(int signum);
 void	sig_int(int signum);
 void	sig_quit(int signum);
-void	sig_block(void);
+void	sig_ignore(void);
 void	sig_default(t_mini *m);
 void	config_terminal(t_mini *m);
 void	sig_int_hdc(int signum);
 
 //init
-bool	shell_init(t_mini *m);
-bool	env_init(t_mini *m);
+bool	init_minishell(t_mini *m);
+bool	init_environment(t_mini *m);
 
 //token
-bool	tokenize(t_mini *m);
+bool	make_tokens(t_mini *m);
 
 //env
 bool	get_env(t_mini *m, t_token *tok, bool is_div);

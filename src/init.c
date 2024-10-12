@@ -15,7 +15,7 @@ bool	shell_malloc(t_mini *m)
 	return (0);
 }
 
-bool	shell_init(t_mini *m)
+bool	init_minishell(t_mini *m)
 {
 	m->a_size = 0;
 	m->b_size = 0;
@@ -32,12 +32,12 @@ bool	shell_init(t_mini *m)
 	return (0);
 }
 
-bool	env_init(t_mini *m)
+bool	init_environment(t_mini *m)
 {
-	int		i;
-	int		j;
 	char	**env_tmp;
 	int		env_size;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (__environ[i])

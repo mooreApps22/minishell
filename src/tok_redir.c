@@ -1,21 +1,21 @@
 
-#include "../inc/tokenizer.h"
+#include "../inc/tokens.h"
 
 static bool	new_tok(t_mini *m, int pos)
 {
-	t_token	*new_tok;
+	t_token	*new;
 
-	new_tok = ft_malloc(sizeof(t_token), m->mem);
-	if (!new_tok)
+	new = ft_malloc(sizeof(t_token), m->mem);
+	if (!new)
 		return (1);
-	new_tok->next = NULL;
-	new_tok->cont = NULL;
-	m->t_tail->next = new_tok;
-	m->t_tail = new_tok;
+	new->next = NULL;
+	new->cont = NULL;
+	m->t_tail->next = new;
+	m->t_tail = new;
 	m->b_size++;
-	new_tok->end_pos = -1;
-	new_tok->pos = pos;
-	new_tok->is_div = 0;
+	new->end_pos = -1;
+	new->pos = pos;
+	new->is_div = 0;
 	return (0);
 }
 
@@ -25,7 +25,7 @@ static bool	right_shift(t_mini *m, int *i)
 	{
 		if (new_tok(m, *i))
 			return (1);
-		m->t_tail->type = REDIR_AP;
+		m->t_tail->type = APPEND;
 		(*i)++;
 	}
 	else

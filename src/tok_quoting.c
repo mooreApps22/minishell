@@ -1,5 +1,5 @@
 
-#include "../inc/tokenizer.h"
+#include "../inc/tokens.h"
 
 static bool	new_tok(t_mini *m, int size, int pos)
 {
@@ -30,7 +30,7 @@ static bool	new_tok(t_mini *m, int size, int pos)
 	return (0);
 }
 
-static bool	single(t_mini *m, int *pos)
+static bool	single_quotes(t_mini *m, int *pos)
 {
 	int	size;
 	int	flag;
@@ -54,7 +54,7 @@ static bool	single(t_mini *m, int *pos)
 	return (0);
 }
 
-static bool	db(t_mini *m, int *pos)
+static bool	double_quotes(t_mini *m, int *pos)
 {
 	int	size;
 	int	flag;
@@ -78,7 +78,7 @@ static bool	db(t_mini *m, int *pos)
 	return (0);
 }
 
-bool	quote(t_mini *m)
+bool	quoting(t_mini *m)
 {
 	int	i;
 
@@ -87,11 +87,11 @@ bool	quote(t_mini *m)
 	{
 		if (m->input[i] == '\'')
 		{
-			if (single(m, &i))
+			if (single_quotes(m, &i))
 				return (1);
 		}
 		else if (m->input[i] == '\"')
-			if (db(m, &i))
+			if (double_quotes(m, &i))
 				return (1);
 		i++;
 	}

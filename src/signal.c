@@ -3,7 +3,7 @@
 
 volatile sig_atomic_t	g_signal;
 
-void	sig_block(void)
+void	sig_ignore(void)
 {
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);

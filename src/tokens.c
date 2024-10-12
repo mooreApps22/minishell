@@ -1,5 +1,5 @@
 
-#include "../inc/tokenizer.h"
+#include "../inc/tokens.h"
 
 static bool	check(t_mini *m)
 {
@@ -15,7 +15,7 @@ static bool	check(t_mini *m)
 	return (0);
 }
 
-static	bool	new_tok(t_mini *m, char *cont, t_token *prev, t_token *now)
+static bool	new_tok(t_mini *m, char *cont, t_token *prev, t_token *now)
 {
 	t_token	*new_tok;
 
@@ -32,8 +32,7 @@ static	bool	new_tok(t_mini *m, char *cont, t_token *prev, t_token *now)
 	return (0);
 }
 
-static bool
-	divide_tok_lp(t_mini *m, t_token **prev, t_token *now, char **tmp)
+static bool	divide_tok_lp(t_mini *m, t_token **prev, t_token *now, char **tmp)
 {
 	int		i;
 
@@ -74,12 +73,12 @@ static bool	divide_tok(t_mini *m, t_token *prev, t_token *now)
 	return (0);
 }
 
-bool	tokenize(t_mini *m)
+bool	make_tokens(t_mini *m)
 {
-	sig_block();
-	if (quote(m))
+	sig_ignore();
+	if (quoting(m))
 		return (1);
-	if (normal(m))
+	if (tokenize_input(m))
 		return (1);
 	sort(m);
 	if (pipeline(m))

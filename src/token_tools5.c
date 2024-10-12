@@ -1,5 +1,5 @@
 
-#include "../inc/tokenizer.h"
+#include "../inc/tokens.h"
 
 static bool	join_do(t_mini *m, t_token *now)
 {

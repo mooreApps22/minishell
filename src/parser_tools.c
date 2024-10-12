@@ -36,7 +36,7 @@ bool	rdr_malloc(t_mini *m, int idx)
 
 void	fill_rdr_nfd(t_exe *exe, int idx, t_token *type, t_token *fn)
 {
-	if (type->type == REDIR_AP || type->type == REDIR_OUT)
+	if (type->type == APPEND || type->type == REDIR_OUT)
 		exe->rdr[idx].fd = 1;
 	if (type->type == REDIR_IN)
 		exe->rdr[idx].fd = 0;
