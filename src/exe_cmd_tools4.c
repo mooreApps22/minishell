@@ -1,5 +1,5 @@
 
-#include "../inc/exe.h"
+#include "../inc/cmd.h"
 
 void	reset_env(t_mini *m, char **new_env, int tar_idx)
 {
@@ -51,7 +51,7 @@ void	m_unset(t_mini *m, char *target)
 		{
 			perror("minishell: unset:");
 			m->exit_status = errno;
-			if (m->exe_size != 1)
+			if (m->cmd_size != 1)
 				exit(errno);
 		}
 	}
@@ -59,19 +59,19 @@ void	m_unset(t_mini *m, char *target)
 
 void	exe_builtin(t_mini *m, int idx, bool is_print)
 {
-	if (!ft_strncmp(m->exe[idx].args[0], "echo", 5))
+	if (!ft_strncmp(m->cmd[idx].args[0], "echo", 5))
 		b_echo(m, idx);
-	if (!ft_strncmp(m->exe[idx].args[0], "cd", 3))
+	if (!ft_strncmp(m->cmd[idx].args[0], "cd", 3))
 		b_cd(m, idx);
-	if (!ft_strncmp(m->exe[idx].args[0], "pwd", 4))
+	if (!ft_strncmp(m->cmd[idx].args[0], "pwd", 4))
 		b_pwd(m, 1);
-	if (!ft_strncmp(m->exe[idx].args[0], "export", 7))
+	if (!ft_strncmp(m->cmd[idx].args[0], "export", 7))
 		b_export(m, idx);
-	if (!ft_strncmp(m->exe[idx].args[0], "unset", 6))
+	if (!ft_strncmp(m->cmd[idx].args[0], "unset", 6))
 		b_unset(m, idx);
-	if (!ft_strncmp(m->exe[idx].args[0], "env", 4))
+	if (!ft_strncmp(m->cmd[idx].args[0], "env", 4))
 		b_env(m, idx);
-	if (!ft_strncmp(m->exe[idx].args[0], "exit", 5))
+	if (!ft_strncmp(m->cmd[idx].args[0], "exit", 5))
 		b_exit(m, idx, is_print);
 }
 
@@ -80,8 +80,8 @@ void	b_cd_handle(t_mini *m, int idx)
 	int	flag;
 	int	cmp;
 
-	flag = chdir(m->exe[idx].args[1]);
-	cmp = ft_strncmp(m->exe[idx].args[1], ".", 2);
+	flag = chdir(m->cmd[idx].args[1]);
+	cmp = ft_strncmp(m->cmd[idx].args[1], ".", 2);
 	if (flag == -1)
 		cd_error(m, idx);
 	else if (!cmp)

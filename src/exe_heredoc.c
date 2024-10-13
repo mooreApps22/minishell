@@ -1,5 +1,5 @@
 
-#include "../inc/exe.h"
+#include "../inc/cmd.h"
 
 static void	print_warning(char *eof)
 {
@@ -68,16 +68,16 @@ bool	exe_hdc(t_mini *m)
 	int	status;
 
 	i = 0;
-	while (i < m->exe_size)
+	while (i < m->cmd_size)
 	{
 		j = 0;
-		while (j < m->exe[i].hdc_size)
+		while (j < m->cmd[i].hdc_size)
 		{
-			if (pipe(m->exe[i].hdc[j].pipe) == -1)
+			if (pipe(m->cmd[i].hdc[j].pipe) == -1)
 				return (1);
 			if (fork() == 0)
-				start_exe_hdc(m, m->exe[i].hdc[j]);
-			close(m->exe[i].hdc[j].pipe[1]);
+				start_exe_hdc(m, m->cmd[i].hdc[j]);
+			close(m->cmd[i].hdc[j].pipe[1]);
 			if (parent_process(&status))
 				return (1);
 			j++;

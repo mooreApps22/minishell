@@ -1,17 +1,17 @@
 
-#include "../inc/exe.h"
+#include "../inc/cmd.h"
 
 bool	is_parent(t_mini *m)
 {
-	if (!m->exe[0].args)
+	if (!m->cmd[0].args)
 		return (0);
-	if (!ft_strncmp(m->exe[0].args[0], "cd", 3))
+	if (!ft_strncmp(m->cmd[0].args[0], "cd", 3))
 		return (1);
-	if (!ft_strncmp(m->exe[0].args[0], "export", 7))
+	if (!ft_strncmp(m->cmd[0].args[0], "export", 7))
 		return (1);
-	if (!ft_strncmp(m->exe[0].args[0], "unset", 6))
+	if (!ft_strncmp(m->cmd[0].args[0], "unset", 6))
 		return (1);
-	if (!ft_strncmp(m->exe[0].args[0], "exit", 5))
+	if (!ft_strncmp(m->cmd[0].args[0], "exit", 5))
 		return (1);
 	return (0);
 }
@@ -45,23 +45,23 @@ void	exe_rdr(t_mini *m)
 	int	j;
 
 	i = -1;
-	while (++i < m->exe_size)
+	while (++i < m->cmd_size)
 	{
 		j = -1;
-		while (++j < m->exe[i].rdr_size)
+		while (++j < m->cmd[i].rdr_size)
 		{
-			if (m->exe[i].rdr[j].type >= 1 && m->exe[i].rdr[j].type <= 3)
+			if (m->cmd[i].rdr[j].type >= 1 && m->cmd[i].rdr[j].type <= 3)
 			{
-				if (open_rdr(&(m->exe[i].rdr[j])))
+				if (open_rdr(&(m->cmd[i].rdr[j])))
 				{
 					ft_putstr_fd("minishell: ", 2);
-					perror(m->exe[i].rdr[j].fn);
+					perror(m->cmd[i].rdr[j].fn);
 					m->exit_status = errno;
-					m->exe[i].rdr[j].if_rdr = 0;
+					m->cmd[i].rdr[j].if_rdr = 0;
 					break ;
 				}
 				else
-					m->exe[i].rdr[j].if_rdr = 1;
+					m->cmd[i].rdr[j].if_rdr = 1;
 			}
 		}
 	}
@@ -69,15 +69,15 @@ void	exe_rdr(t_mini *m)
 
 bool	exe_pipe(t_mini *m, int idx)
 {
-	if (idx != m->exe_size - 1)
+	if (idx != m->cmd_size - 1)
 	{
-		if (pipe(m->exe[idx].pipe) == -1)
+		if (pipe(m->cmd[idx].pipe) == -1)
 		{
 			perror("minishell");
 			return (1);
 		}
-		if (!m->exe[idx + 1].args)
-			close(m->exe[idx].pipe[0]);
+		if (!m->cmd[idx + 1].args)
+			close(m->cmd[idx].pipe[0]);
 	}
 	return (0);
 }

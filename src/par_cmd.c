@@ -1,5 +1,5 @@
 
-#include "../inc/parser.h"
+#include "../inc/parse.h"
 
 static int	get_arg_size(t_token *now)
 {
@@ -29,11 +29,11 @@ static void	fill_args(t_mini *m, int idx, int arg_size, t_token *now)
 		if (now->type == COMMAND || now->type == ARG)
 			if (now->cont)
 				if (now->cont[0])
-					m->exe[idx].args[i++] = now->cont;
+					m->cmd[idx].args[i++] = now->cont;
 		now = now->next;
 	}
-	m->exe[idx].args[i] = NULL;
-	m->exe[idx].if_exe = 1;
+	m->cmd[idx].args[i] = NULL;
+	m->cmd[idx].if_exe = 1;
 }
 
 bool	parse_cmd(t_mini *m)
@@ -44,13 +44,13 @@ bool	parse_cmd(t_mini *m)
 
 	now = m->t_head->next;
 	i = 0;
-	while (i < m->exe_size && now)
+	while (i < m->cmd_size && now)
 	{
 		arg_size = get_arg_size(now);
 		if (arg_size != 1)
 		{
-			m->exe[i].args = ft_malloc(arg_size * sizeof(char *), m->mem);
-			if (!m->exe[i].args)
+			m->cmd[i].args = ft_malloc(arg_size * sizeof(char *), m->mem);
+			if (!m->cmd[i].args)
 				return (1);
 			fill_args(m, i, arg_size, now);
 		}

@@ -1,5 +1,5 @@
 
-#include "../inc/exe.h"
+#include "../inc/cmd.h"
 
 void	b_cd_home(t_mini *m, int idx)
 {

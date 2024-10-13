@@ -1,5 +1,5 @@
 
-#include "../inc/parser.h"
+#include "../inc/parse.h"
 
 static int	ct_exe_size(t_mini *m)
 {
@@ -17,18 +17,18 @@ static int	ct_exe_size(t_mini *m)
 	return (ct);
 }
 
-static bool	parse_init(t_mini *m)
+static bool	init_parse(t_mini *m)
 {
 	int	i;
 
-	m->exe_size = ct_exe_size(m);
-	m->exe = ft_malloc(sizeof(t_exe) * m->exe_size, m->mem);
-	if (!m->exe)
+	m->cmd_size = ct_exe_size(m);
+	m->cmd = ft_malloc(sizeof(t_cmd) * m->cmd_size, m->mem);
+	if (!m->cmd)
 		return (1);
 	i = 0;
-	while (i < m->exe_size)
+	while (i < m->cmd_size)
 	{
-		m->exe[i].args = NULL;
+		m->cmd[i].args = NULL;
 		i++;
 	}
 	return (0);
@@ -36,7 +36,7 @@ static bool	parse_init(t_mini *m)
 
 bool	parse(t_mini *m)
 {
-	if (parse_init(m))
+	if (init_parse(m))
 		return (1);
 	if (parse_cmd(m))
 		return (1);

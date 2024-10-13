@@ -1,5 +1,5 @@
 
-#include "../inc/parser.h"
+#include "../inc/parse.h"
 
 static void	get_size(t_mini *m, int idx, t_token *now)
 {
@@ -16,7 +16,7 @@ static void	get_size(t_mini *m, int idx, t_token *now)
 			ct++;
 		now = now->next;
 	}
-	m->exe[idx].rdr_size = ct;
+	m->cmd[idx].rdr_size = ct;
 	ct = 0;
 	now = tmp;
 	while (now)
@@ -27,7 +27,7 @@ static void	get_size(t_mini *m, int idx, t_token *now)
 			ct++;
 		now = now->next;
 	}
-	m->exe[idx].hdc_size = ct;
+	m->cmd[idx].hdc_size = ct;
 }
 
 static void	fill_hdc(t_mini *m, int idx, t_token *now)
@@ -35,23 +35,23 @@ static void	fill_hdc(t_mini *m, int idx, t_token *now)
 	int	i;
 
 	i = 0;
-	while (i < m->exe[idx].hdc_size)
+	while (i < m->cmd[idx].hdc_size)
 	{
 		if (now->type == FD)
 		{
 			if (now->next->type == HEREDOC)
 			{
-				m->exe[idx].hdc[i].fd = ft_atoi(now->cont);
+				m->cmd[idx].hdc[i].fd = ft_atoi(now->cont);
 				now = now->next->next;
-				m->exe[idx].hdc[i++].eof = now->cont;
+				m->cmd[idx].hdc[i++].eof = now->cont;
 				i++;
 			}
 		}
 		else if (now->type == HEREDOC)
 		{
-			m->exe[idx].hdc[i].fd = 0;
+			m->cmd[idx].hdc[i].fd = 0;
 			now = now->next;
-			m->exe[idx].hdc[i++].eof = now->cont;
+			m->cmd[idx].hdc[i++].eof = now->cont;
 		}
 		now = now->next;
 	}
@@ -62,19 +62,19 @@ static void	fill_rdr(t_mini *m, int idx, t_token *now)
 	int	i;
 
 	i = 0;
-	while (i < m->exe[idx].rdr_size)
+	while (i < m->cmd[idx].rdr_size)
 	{
 		if (now->type == FD)
 		{
 			if (now->next->type != HEREDOC)
 			{
-				fill_rdr_fd(&(m->exe[idx]), i++, now, now->next->next);
+				fill_rdr_fd(&(m->cmd[idx]), i++, now, now->next->next);
 				now = now->next->next;
 			}
 		}
 		else if (now->type >= 1 && now->type <= 3)
 		{
-			fill_rdr_nfd(&(m->exe[idx]), i++, now, now->next);
+			fill_rdr_nfd(&(m->cmd[idx]), i++, now, now->next);
 			now = now->next;
 		}
 		now = now->next;
@@ -88,7 +88,7 @@ bool	parse_redir(t_mini *m)
 
 	now = m->t_head->next;
 	i = 0;
-	while (i < m->exe_size && now)
+	while (i < m->cmd_size && now)
 	{
 		get_size(m, i, now);
 		if (rdr_malloc(m, i))

@@ -26,8 +26,8 @@ bool	init_minishell(t_mini *m)
 	m->t_head->cont = NULL;
 	m->t_head->end_pos = -100;
 	m->t_tail = m->t_head;
-	m->exe_idx = 0;
-	m->exe_size = 0;
+	m->cmd_idx = 0;
+	m->cmd_size = 0;
 	m->is_print_sig = 1;
 	return (0);
 }

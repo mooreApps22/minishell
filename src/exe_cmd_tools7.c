@@ -1,5 +1,5 @@
 
-#include "../inc/exe.h"
+#include "../inc/cmd.h"
 
 static void	mod_env_cd_oldpwd(t_mini *m, char *old_pwd)
 {
@@ -9,7 +9,7 @@ static void	mod_env_cd_oldpwd(t_mini *m, char *old_pwd)
 	if (!tmp)
 	{
 		perror("minishell: cd");
-		if (m->exe_size != 1)
+		if (m->cmd_size != 1)
 			exit(errno);
 	}
 	m_export(m, tmp, "cd");
@@ -27,7 +27,7 @@ void	mod_env_cd_special(t_mini *m, char *old_pwd)
 	if (!tmp)
 	{
 		perror("minishell: cd");
-		if (m->exe_size != 1)
+		if (m->cmd_size != 1)
 			exit(errno);
 	}
 	new_pwd = ft_strjoin(tmp, "/.");
@@ -35,7 +35,7 @@ void	mod_env_cd_special(t_mini *m, char *old_pwd)
 	{
 		free(tmp);
 		perror("minishell: cd");
-		if (m->exe_size != 1)
+		if (m->cmd_size != 1)
 			exit(errno);
 	}
 	m_export(m, new_pwd, "cd");
@@ -49,7 +49,7 @@ void	cd_error_special(t_mini *m)
 	ft_putstr_fd(" cannot access parent directories:", 2);
 	ft_putstr_fd(" No such file or directory\n", 2);
 	mod_env_cd_special(m, getenv("PWD"));
-	if (m->exe_size != 1)
+	if (m->cmd_size != 1)
 		exit(1);
 	m->exit_status = 1;
 }

@@ -1,6 +1,6 @@
 
-#ifndef EXE_H
-# define EXE_H
+#ifndef CMD_H
+# define CMD_H
 
 # include "minishell.h"
 

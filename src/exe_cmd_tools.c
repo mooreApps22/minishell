@@ -1,7 +1,7 @@
 
-#include "../inc/exe.h"
+#include "../inc/cmd.h"
 
-static void	b_echo_n(t_exe exe, int i)
+static void	b_echo_n(t_cmd exe, int i)
 {
 	while (exe.args[i])
 	{
@@ -12,7 +12,7 @@ static void	b_echo_n(t_exe exe, int i)
 	exit(0);
 }
 
-bool	skip_option(t_exe exe, int *idx)
+bool	skip_option(t_cmd exe, int *idx)
 {
 	size_t	i;
 	bool	flag;
@@ -47,15 +47,15 @@ void	b_echo(t_mini *m, int idx)
 	bool	flag;
 
 	i = 1;
-	flag = skip_option(m->exe[idx], &i);
+	flag = skip_option(m->cmd[idx], &i);
 	if (flag)
-		b_echo_n(m->exe[idx], i);
+		b_echo_n(m->cmd[idx], i);
 	else
 	{
-		while (m->exe[idx].args[i])
+		while (m->cmd[idx].args[i])
 		{
-			printf("%s", m->exe[idx].args[i++]);
-			if (m->exe[idx].args[i])
+			printf("%s", m->cmd[idx].args[i++]);
+			if (m->cmd[idx].args[i])
 				printf(" ");
 		}
 		printf("\n");
@@ -89,7 +89,7 @@ void	b_env(t_mini *m, int idx)
 {
 	int	i;
 
-	if (m->exe[idx].args[1])
+	if (m->cmd[idx].args[1])
 	{
 		ft_putstr_fd("minishell: we don't handle options or arguments.\n", 2);
 		exit(1);

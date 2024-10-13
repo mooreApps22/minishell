@@ -1,5 +1,5 @@
 
-#include "../inc/exe.h"
+#include "../inc/cmd.h"
 
 static void	handle_sigexit(int *status)
 {
@@ -14,9 +14,9 @@ void	end_exe(t_mini *m, int *status)
 	int	i;
 
 	i = 0;
-	while (i < m->exe_size)
+	while (i < m->cmd_size)
 	{
-		if (m->exe[i].args)
+		if (m->cmd[i].args)
 			wait(status);
 		else
 		{
@@ -48,12 +48,12 @@ bool	exe(t_mini *m)
 	if (exe_cmd(m))
 		return (1);
 	i = 0;
-	while (i < m->exe_size - 1)
+	while (i < m->cmd_size - 1)
 	{
-		close(m->exe[i].pipe[0]);
-		close(m->exe[i++].pipe[1]);
+		close(m->cmd[i].pipe[0]);
+		close(m->cmd[i++].pipe[1]);
 	}
-	if (!is_parent(m) || m->exe_size != 1)
+	if (!is_parent(m) || m->cmd_size != 1)
 	{
 		end_exe(m, &status);
 		m->exit_status = status;

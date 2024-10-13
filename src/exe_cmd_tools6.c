@@ -1,5 +1,5 @@
 
-#include "../inc/exe.h"
+#include "../inc/cmd.h"
 
 void	b_exit_numerr(char *str)
 {
@@ -38,7 +38,7 @@ bool	b_exit_checkdigits(char *num)
 
 static void	b_exit_subroutine(t_mini *m, int idx, int i, bool is_print)
 {
-	if (b_exit_checkdigits(m->exe[0].args[1]))
+	if (b_exit_checkdigits(m->cmd[0].args[1]))
 	{
 		if (i > 2)
 		{
@@ -48,13 +48,13 @@ static void	b_exit_subroutine(t_mini *m, int idx, int i, bool is_print)
 			else
 				m->exit_status = 1;
 		}
-		else if (b_exit_checkover(m->exe[idx].args[1]))
-			b_exit_numerr(m->exe[idx].args[1]);
+		else if (b_exit_checkover(m->cmd[idx].args[1]))
+			b_exit_numerr(m->cmd[idx].args[1]);
 		else
-			exit(ft_atol(m->exe[idx].args[1]));
+			exit(ft_atol(m->cmd[idx].args[1]));
 	}
 	else
-		b_exit_numerr(m->exe[idx].args[1]);
+		b_exit_numerr(m->cmd[idx].args[1]);
 }
 
 void	b_exit(t_mini *m, int idx, bool is_print)
@@ -62,7 +62,7 @@ void	b_exit(t_mini *m, int idx, bool is_print)
 	int	i;
 
 	i = -1;
-	while (m->exe[idx].args[++i])
+	while (m->cmd[idx].args[++i])
 		;
 	if (is_print)
 		printf("exit\n");
