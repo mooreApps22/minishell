@@ -72,11 +72,11 @@ typedef struct	s_cmd
 	char	**args;
 	t_rdr	*rdr;
 	t_hdc	*hdc;
-	int		rdr_size;
+	int		rdr_ct;
 	int		hdc_size;
 	pid_t	pid;
 	int		pipe[2];
-	bool	if_exe;
+	bool	if_executable;
 }	t_cmd;
 
 typedef struct s_mini
@@ -88,8 +88,8 @@ typedef struct s_mini
 	t_token			*t_head;
 	t_token			*t_tail;
 	t_cmd			*cmd;
-	int				cmd_idx;
-	int				cmd_size;
+	int				job_idx;
+	int				job_size;
 	bool			is_print_sig;
 	char			*path;
 	int				a_size;
@@ -117,16 +117,16 @@ bool	init_minishell(t_mini *m);
 bool	init_environment(t_mini *m);
 
 //token
-bool	make_tokens(t_mini *m);
+bool	tokenizer(t_mini *m);
 
 //env
 bool	get_env(t_mini *m, t_token *tok, bool is_div);
 
 //parse
-bool	parse(t_mini *m);
+bool	parser(t_mini *m);
 
 //execute
-bool	exe(t_mini *m);
+bool	executor(t_mini *m);
 void	b_pwd(t_mini *m, bool is_print);
 bool	is_parent(t_mini *m);
 

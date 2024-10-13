@@ -7,7 +7,7 @@ static void	print_warning(char *eof)
 	printf(" delimited by end-of-file (wanted `%s')\n", eof);
 }
 
-static void	hdc_write(t_hdc hdc, char *buf)
+static void	output_heredoc(t_hdc hdc, char *buf)
 {
 	int	i;
 
@@ -18,7 +18,7 @@ static void	hdc_write(t_hdc hdc, char *buf)
 	write(1, "> ", 2);
 }
 
-static void	start_exe_hdc(t_mini *m, t_hdc hdc)
+static void	heredoc_process(t_mini *m, t_hdc hdc)
 {
 	char	*buf;
 	int		size;
@@ -37,7 +37,7 @@ static void	start_exe_hdc(t_mini *m, t_hdc hdc)
 			m->exit_status = 1;
 			return ;
 		}
-		hdc_write(hdc, buf);
+		output_heredoc(hdc, buf);
 		buf = get_next_line(0);
 	}
 	if (!buf)
@@ -45,7 +45,7 @@ static void	start_exe_hdc(t_mini *m, t_hdc hdc)
 	exit(0);
 }
 
-static bool	parent_process(int *status)
+static bool	wait_for_status(int *status)
 {
 	wait(status);
 	if (WIFEXITED(*status))
@@ -61,14 +61,14 @@ static bool	parent_process(int *status)
 	return (1);
 }
 
-bool	exe_hdc(t_mini *m)
+bool	is_heredoc(t_mini *m)
 {
 	int	i;
 	int	j;
 	int	status;
 
 	i = 0;
-	while (i < m->cmd_size)
+	while (i < m->job_size)
 	{
 		j = 0;
 		while (j < m->cmd[i].hdc_size)
@@ -76,9 +76,9 @@ bool	exe_hdc(t_mini *m)
 			if (pipe(m->cmd[i].hdc[j].pipe) == -1)
 				return (1);
 			if (fork() == 0)
-				start_exe_hdc(m, m->cmd[i].hdc[j]);
+				heredoc_process(m, m->cmd[i].hdc[j]);
 			close(m->cmd[i].hdc[j].pipe[1]);
-			if (parent_process(&status))
+			if (wait_for_status(&status))
 				return (1);
 			j++;
 		}

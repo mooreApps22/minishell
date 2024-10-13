@@ -63,29 +63,8 @@ void	m_export(t_mini *m, char *new_env, char *caller)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			perror(caller);
-			if (m->cmd_size != 1)
+			if (m->job_size != 1)
 				exit(errno);
 		}
 	}
-}
-
-void	b_unset(t_mini *m, int idx)
-{
-	int	i;
-
-	i = 1;
-	while (m->cmd[idx].args[i])
-	{
-		if (getenv(m->cmd[idx].args[i]))
-			m_unset(m, m->cmd[idx].args[i]);
-		else if (!(ft_isalpha(m->cmd[idx].args[i][0])&& ft_isalnum_str(m->cmd[idx].args[i] + 1)))
-		{
-			ft_putstr_fd("minishell: unset: `", 2);
-			ft_putstr_fd(m->cmd[idx].args[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-		}
-		i++;
-	}
-	if (m->cmd_size != 1)
-		exit(0);
 }

@@ -1,7 +1,7 @@
 
 #include "../inc/parse.h"
 
-static int	ct_exe_size(t_mini *m)
+static int	ct_cmd_size(t_mini *m)
 {
 	int		ct;
 	t_token	*now;
@@ -21,12 +21,12 @@ static bool	init_parse(t_mini *m)
 {
 	int	i;
 
-	m->cmd_size = ct_exe_size(m);
-	m->cmd = ft_malloc(sizeof(t_cmd) * m->cmd_size, m->mem);
+	m->job_size = ct_cmd_size(m);
+	m->cmd = ft_malloc(sizeof(t_cmd) * m->job_size, m->mem);
 	if (!m->cmd)
 		return (1);
 	i = 0;
-	while (i < m->cmd_size)
+	while (i < m->job_size)
 	{
 		m->cmd[i].args = NULL;
 		i++;
@@ -34,7 +34,7 @@ static bool	init_parse(t_mini *m)
 	return (0);
 }
 
-bool	parse(t_mini *m)
+bool	parser(t_mini *m)
 {
 	if (init_parse(m))
 		return (1);

@@ -33,7 +33,7 @@ static void	fill_args(t_mini *m, int idx, int arg_size, t_token *now)
 		now = now->next;
 	}
 	m->cmd[idx].args[i] = NULL;
-	m->cmd[idx].if_exe = 1;
+	m->cmd[idx].if_executable = 1;
 }
 
 bool	parse_cmd(t_mini *m)
@@ -44,7 +44,7 @@ bool	parse_cmd(t_mini *m)
 
 	now = m->t_head->next;
 	i = 0;
-	while (i < m->cmd_size && now)
+	while (i < m->job_size && now)
 	{
 		arg_size = get_arg_size(now);
 		if (arg_size != 1)

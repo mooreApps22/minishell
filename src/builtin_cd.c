@@ -1,6 +1,13 @@
 
 #include "../inc/cmd.h"
 
+void	b_cd_home(t_mini *m, int idx)
+{
+	if (chdir(getenv("HOME")) != 0)
+		cd_error(m, idx);
+	mod_env_cd(m, getenv("PWD"));
+}
+
 void	mod_env_cd(t_mini *m, char *old_pwd)
 {
 	char	*tmp;
@@ -9,7 +16,7 @@ void	mod_env_cd(t_mini *m, char *old_pwd)
 	if (!tmp)
 	{
 		perror("minishell: cd");
-		if (m->cmd_size != 1)
+		if (m->job_size != 1)
 			exit(errno);
 	}
 	m_export(m, tmp, "cd");
@@ -19,7 +26,7 @@ void	mod_env_cd(t_mini *m, char *old_pwd)
 	if (!tmp)
 	{
 		perror("minishell: cd");
-		if (m->cmd_size != 1)
+		if (m->job_size != 1)
 			exit(errno);
 	}
 	m_export(m, tmp, "cd");
@@ -33,18 +40,38 @@ void	cd_error(t_mini *m, int idx)
 		ft_putstr_fd("OLDPWD not set\n", 2);
 	else
 		perror(m->cmd[idx].args[1]);
-	if (m->cmd_size != 1)
+	if (m->job_size != 1)
 		exit(1);
 	m->exit_status = 1;
+}
+
+void	b_cd_handle(t_mini *m, int idx)
+{
+	int	flag;
+	int	cmp;
+
+	flag = chdir(m->cmd[idx].args[1]);
+	cmp = ft_strncmp(m->cmd[idx].args[1], ".", 2);
+	if (flag == -1)
+		cd_error(m, idx);
+	else if (!cmp)
+	{
+		if (access(getenv("PWD"), F_OK) != 0)
+			cd_error_special(m);
+		else
+			mod_env_cd(m, getenv("PWD"));
+	}
+	else
+		mod_env_cd(m, getenv("PWD"));
 }
 
 void	b_cd(t_mini *m, int idx)
 {
 	if (!m->cmd[idx].args[1])
 		b_cd_home(m, idx);
-	else if (ft_strncmp(m->cmd[idx].args[1], "~", 2) == 0
-		|| !m->cmd[idx].args[1]
-		|| ft_strncmp(m->cmd[idx].args[1], "~/", 3) == 0)
+	else if (ft_strncmp(m->cmd[idx].args[1], "~", 2) == 0 ||
+		!m->cmd[idx].args[1] ||
+		ft_strncmp(m->cmd[idx].args[1], "~/", 3) == 0)
 		b_cd_home(m, idx);
 	else if (ft_strncmp(m->cmd[idx].args[1], "-", 2) == 0
 		|| ft_strncmp(m->cmd[idx].args[1], "-/", 3) == 0)
@@ -57,43 +84,6 @@ void	b_cd(t_mini *m, int idx)
 	}
 	else
 		b_cd_handle(m, idx);
-	if (m->cmd_size != 1)
-		exit(0);
-}
-
-static void	b_export_error(t_mini *m, char *str)
-{
-	ft_putstr_fd("minishell: export: `", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
-	m->exit_status = 1;
-}
-
-void	b_export(t_mini *m, int idx)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (m->cmd[idx].args[++i])
-	{
-		j = 0;
-		while (m->cmd[idx].args[i][j])
-		{
-			if (m->cmd[idx].args[i][j] == '=' && j != 0)
-			{
-				m_export(m, m->cmd[idx].args[i], "export");
-				break ;
-			}
-			if (!ft_isalpha(m->cmd[idx].args[i][0])
-				|| !ft_isalnum(m->cmd[idx].args[i][j]))
-			{
-				b_export_error(m, m->cmd[idx].args[i]);
-				break ;
-			}
-			j++;
-		}
-	}
-	if (m->cmd_size != 1)
+	if (m->job_size != 1)
 		exit(0);
 }

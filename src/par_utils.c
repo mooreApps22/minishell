@@ -17,9 +17,9 @@ t_token	*next_pipe(t_token *now)
 
 bool	rdr_malloc(t_mini *m, int idx)
 {
-	if (m->cmd[idx].rdr_size != 0)
+	if (m->cmd[idx].rdr_ct != 0)
 	{
-		m->cmd[idx].rdr = ft_malloc(m->cmd[idx].rdr_size * sizeof(t_rdr),
+		m->cmd[idx].rdr = ft_malloc(m->cmd[idx].rdr_ct * sizeof(t_rdr),
 				m->mem);
 		if (!m->cmd[idx].rdr)
 			return (1);

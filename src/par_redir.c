@@ -16,7 +16,7 @@ static void	get_size(t_mini *m, int idx, t_token *now)
 			ct++;
 		now = now->next;
 	}
-	m->cmd[idx].rdr_size = ct;
+	m->cmd[idx].rdr_ct = ct;
 	ct = 0;
 	now = tmp;
 	while (now)
@@ -62,7 +62,7 @@ static void	fill_rdr(t_mini *m, int idx, t_token *now)
 	int	i;
 
 	i = 0;
-	while (i < m->cmd[idx].rdr_size)
+	while (i < m->cmd[idx].rdr_ct)
 	{
 		if (now->type == FD)
 		{
@@ -88,7 +88,7 @@ bool	parse_redir(t_mini *m)
 
 	now = m->t_head->next;
 	i = 0;
-	while (i < m->cmd_size && now)
+	while (i < m->job_size && now)
 	{
 		get_size(m, i, now);
 		if (rdr_malloc(m, i))

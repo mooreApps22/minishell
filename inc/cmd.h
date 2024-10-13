@@ -4,14 +4,14 @@
 
 # include "minishell.h"
 
-bool	exe_init(t_mini *m);
-bool	exe_cmd(t_mini *m);
-bool	exe_rdin(t_mini *m);
-bool	exe_rdout(t_mini *m);
-bool	exe_ap(t_mini *m);
-void	exe_rdr(t_mini *m);
-bool	exe_hdc(t_mini *m);
-bool	exe_pipe(t_mini *m, int idx);
+bool	cmd_init(t_mini *m);
+bool	is_command(t_mini *m);
+bool	cmd_rdin(t_mini *m);
+bool	cmd_rdout(t_mini *m);
+bool	cmd_append(t_mini *m);
+void	cmd_redir(t_mini *m);
+bool	is_heredoc(t_mini *m);
+bool	create_pipe_for_cmd(t_mini *m, int idx);
 void	b_echo(t_mini *m, int idx);
 void	b_cd(t_mini *m, int idx);
 void	b_export(t_mini *m, int idx);
@@ -19,7 +19,7 @@ void	b_unset(t_mini *m, int idx);
 void	b_env(t_mini *m, int idx);
 void	b_exit(t_mini *m, int idx, bool is_print);
 void	exe_builtin(t_mini *m, int idx, bool is_print);
-void	start_exe_cmd(t_mini *m, int idx);
+void	execute_cmd(t_mini *m, int idx);
 char	**get_path(t_mini *m, char *cmd);
 void	cd_error_special(t_mini *m);
 void	b_cd_handle(t_mini *m, int idx);

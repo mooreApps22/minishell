@@ -73,7 +73,7 @@ static bool	divide_tok(t_mini *m, t_token *prev, t_token *now)
 	return (0);
 }
 
-bool	make_tokens(t_mini *m)
+bool	tokenizer(t_mini *m)
 {
 	sig_ignore();
 	if (quoting(m))

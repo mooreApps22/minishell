@@ -35,7 +35,7 @@ static void	exe_absolute(t_mini *m, int idx)
 	exit(errno);
 }
 
-static void	exe_path(t_mini *m, int idx)
+static void	exe_relative(t_mini *m, int idx)
 {
 	int			i;
 	char		**path;
@@ -58,11 +58,11 @@ static void	exe_path(t_mini *m, int idx)
 	}
 }
 
-void	start_exe_cmd(t_mini *m, int idx)
+void	execute_cmd(t_mini *m, int idx)
 {
 	if (ft_strchr(m->cmd[idx].args[0], '/'))
 		exe_absolute(m, idx);
 	else
-		exe_path(m, idx);
+		exe_relative(m, idx);
 	cmd_not_found(m->cmd[idx].args[0]);
 }

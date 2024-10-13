@@ -1,7 +1,7 @@
 
 #include "../inc/cmd.h"
 
-static void	handle_sigexit(int *status)
+static void	handle_sig_exit(int *status)
 {
 	if (WTERMSIG(*status) != SIGPIPE)
 		*status = WTERMSIG(*status) + 128;
@@ -9,12 +9,12 @@ static void	handle_sigexit(int *status)
 		*status = 0;
 }
 
-void	end_exe(t_mini *m, int *status)
+void	wait_for_status(t_mini *m, int *status)
 {
 	int	i;
 
 	i = 0;
-	while (i < m->cmd_size)
+	while (i < m->job_size)
 	{
 		if (m->cmd[i].args)
 			wait(status);
@@ -26,7 +26,7 @@ void	end_exe(t_mini *m, int *status)
 		if (WIFEXITED(*status))
 			*status = WEXITSTATUS(*status);
 		else if (WIFSIGNALED(*status))
-			handle_sigexit(status);
+			handle_sig_exit(status);
 		if (*status == 130 && m->is_print_sig)
 			printf("^C\n");
 		else if (*status == 131 && m->is_print_sig)
@@ -37,25 +37,25 @@ void	end_exe(t_mini *m, int *status)
 	}
 }
 
-bool	exe(t_mini *m)
+bool	executor(t_mini *m)
 {
 	int	status;
 	int	i;
 
-	if (exe_hdc(m))
+	if (is_heredoc(m))
 		return (1);
-	exe_rdr(m);
-	if (exe_cmd(m))
+	cmd_redir(m);
+	if (is_command(m)) //
 		return (1);
 	i = 0;
-	while (i < m->cmd_size - 1)
+	while (i < m->job_size - 1)
 	{
 		close(m->cmd[i].pipe[0]);
 		close(m->cmd[i++].pipe[1]);
 	}
-	if (!is_parent(m) || m->cmd_size != 1)
+	if (!is_parent(m) || m->job_size != 1)
 	{
-		end_exe(m, &status);
+		wait_for_status(m, &status);
 		m->exit_status = status;
 	}
 	return (0);

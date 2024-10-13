@@ -51,46 +51,8 @@ void	m_unset(t_mini *m, char *target)
 		{
 			perror("minishell: unset:");
 			m->exit_status = errno;
-			if (m->cmd_size != 1)
+			if (m->job_size != 1)
 				exit(errno);
 		}
 	}
-}
-
-void	exe_builtin(t_mini *m, int idx, bool is_print)
-{
-	if (!ft_strncmp(m->cmd[idx].args[0], "echo", 5))
-		b_echo(m, idx);
-	if (!ft_strncmp(m->cmd[idx].args[0], "cd", 3))
-		b_cd(m, idx);
-	if (!ft_strncmp(m->cmd[idx].args[0], "pwd", 4))
-		b_pwd(m, 1);
-	if (!ft_strncmp(m->cmd[idx].args[0], "export", 7))
-		b_export(m, idx);
-	if (!ft_strncmp(m->cmd[idx].args[0], "unset", 6))
-		b_unset(m, idx);
-	if (!ft_strncmp(m->cmd[idx].args[0], "env", 4))
-		b_env(m, idx);
-	if (!ft_strncmp(m->cmd[idx].args[0], "exit", 5))
-		b_exit(m, idx, is_print);
-}
-
-void	b_cd_handle(t_mini *m, int idx)
-{
-	int	flag;
-	int	cmp;
-
-	flag = chdir(m->cmd[idx].args[1]);
-	cmp = ft_strncmp(m->cmd[idx].args[1], ".", 2);
-	if (flag == -1)
-		cd_error(m, idx);
-	else if (!cmp)
-	{
-		if (access(getenv("PWD"), F_OK) != 0)
-			cd_error_special(m);
-		else
-			mod_env_cd(m, getenv("PWD"));
-	}
-	else
-		mod_env_cd(m, getenv("PWD"));
 }

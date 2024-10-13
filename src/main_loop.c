@@ -12,7 +12,7 @@ void	re_init_minishell(t_mini *m)
 
 static void	main_loop_process(t_mini *m)
 {
-	if (make_tokens(m))
+	if (tokenizer(m))
 	{
 		if (m->t_head->next)
 		{
@@ -24,14 +24,14 @@ static void	main_loop_process(t_mini *m)
 		re_init_minishell(m);
 		return ;
 	}
-	if (parse(m))
+	if (parser(m))
 	{
 		ft_putstr_fd(
 			"minishell: parsing error\n", 2);
 		re_init_minishell(m);
 		return ;
 	}
-	if (exe(m))
+	if (executor(m))
 		m->exit_status = 1;
 	re_init_minishell(m);
 }
