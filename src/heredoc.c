@@ -23,7 +23,7 @@ static void	heredoc_process(t_mini *m, t_hdc hdc)
 	char	*buf;
 	int		size;
 
-	signal(SIGINT, sig_int_hdc);
+	signal(SIGINT, handle_sigint_hdc);
 	size = ft_strlen(hdc.eof);
 	write(1, "> ", 2);
 	buf = get_next_line(0);

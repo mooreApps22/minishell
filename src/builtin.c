@@ -1,7 +1,7 @@
 
 #include "../inc/cmd.h"
 
-void	exe_builtin(t_mini *m, int idx, bool is_print)
+void	execute_builtin(t_mini *m, int idx, bool is_print)
 {
 	if (!ft_strncmp(m->cmd[idx].args[0], "echo", 5))
 		b_echo(m, idx);

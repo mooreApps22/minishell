@@ -41,7 +41,7 @@ static void	exe_relative(t_mini *m, int idx)
 	char		**path;
 
 	path = get_path(m, m->cmd[idx].args[0]);
-	exe_builtin(m, idx, 0);
+	execute_builtin(m, idx, 0);
 	if (!path)
 		no_such_file(m->cmd[idx].args[0]);
 	i = 0;

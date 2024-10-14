@@ -86,7 +86,7 @@ void	parent_process(t_mini *m)
 	apply_redirect(m, 0);
 	if (m->cmd[0].hdc_size)
 		dup2(m->cmd[0].hdc[m->cmd[0].hdc_size - 1].pipe[0], STDIN_FILENO);
-	exe_builtin(m, 0, 1);
+	execute_builtin(m, 0, 1);
 }
 
 bool	is_command(t_mini *m)

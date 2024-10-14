@@ -16,24 +16,24 @@ void	sig_default(t_mini *m)
 	signal(SIGQUIT, SIG_DFL);
 }
 
-void	read_again(int signum)
+void	handle_sigint(int signo)
 {
-	g_signal = signum;
+	g_signal = signo;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	printf("\n");
 	rl_redisplay();
 }
 
-void	sig_int_hdc(int signum)
+void	handle_sigint_hdc(int signo)
 {
-	g_signal = signum;
+	g_signal = signo;
 	printf("\n");
 	exit(130);
 }
 
 void	init_signal(void)
 {
-	signal(SIGINT, read_again);
+	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 }

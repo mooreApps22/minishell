@@ -1,7 +1,7 @@
 
 #include "../inc/cmd.h"
 
-void	b_cd_home(t_mini *m, int idx)
+void	cd_to_home(t_mini *m, int idx)
 {
 	if (chdir(getenv("HOME")) != 0)
 		cd_error(m, idx);
@@ -68,11 +68,11 @@ void	b_cd_handle(t_mini *m, int idx)
 void	b_cd(t_mini *m, int idx)
 {
 	if (!m->cmd[idx].args[1])
-		b_cd_home(m, idx);
+		cd_to_home(m, idx);
 	else if (ft_strncmp(m->cmd[idx].args[1], "~", 2) == 0 ||
 		!m->cmd[idx].args[1] ||
 		ft_strncmp(m->cmd[idx].args[1], "~/", 3) == 0)
-		b_cd_home(m, idx);
+		cd_to_home(m, idx);
 	else if (ft_strncmp(m->cmd[idx].args[1], "-", 2) == 0
 		|| ft_strncmp(m->cmd[idx].args[1], "-/", 3) == 0)
 	{

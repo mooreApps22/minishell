@@ -10,7 +10,7 @@ void	re_init_minishell(t_mini *m)
 	init_signal();
 }
 
-static void	main_loop_process(t_mini *m)
+static void	process_input_and_execute(t_mini *m)
 {
 	if (tokenizer(m))
 	{
@@ -47,7 +47,7 @@ void	main_loop(t_mini *m)
 			printf("exit\n");
 			break ;
 		}
-		if (m->input[0] == '\0')
+		if (m->input[0] == '\0' || ft_strncmp(m->input, "\t", ft_strlen(m->input)) == 0)
 		{
 			re_init_minishell(m);
 			continue ;
@@ -58,6 +58,6 @@ void	main_loop(t_mini *m)
 			m->exit_status = 1;
 			g_signal = 0;
 		}
-		main_loop_process(m);
+		process_input_and_execute(m);
 	}
 }

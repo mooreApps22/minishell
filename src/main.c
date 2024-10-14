@@ -45,7 +45,10 @@ void	config_terminal(t_mini *m)
 	tcgetattr(STDIN_FILENO, &m->terminal);
 	termios = m->terminal;
 	termios.c_lflag &= ~ECHOCTL;
-	termios.c_lflag |= (ECHO | ICANON | ISIG);
+//	termios.c_lflag |= (ECHO | ICANON | ISIG);	
+	termios.c_lflag &= ICANON;	
+	termios.c_lflag |= ECHO;	
+	termios.c_lflag |= ISIG;
 	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
 }
 
