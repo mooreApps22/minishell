@@ -14,7 +14,7 @@ void	reset_env(t_mini *m, char **new_env, int tar_idx)
 		i++;
 	}
 	new_env[i] = NULL;
-	ft_free(__environ[tar_idx], m->mem_env);
+	ft_free(__environ[tar_idx], m->env_vars);
 	__environ = new_env;
 }
 
@@ -33,7 +33,7 @@ bool	env_size_dec(t_mini *m, char *target, int tar_len)
 				tar_idx = i;
 		i++;
 	}
-	new_env = ft_malloc(sizeof(char *) * i, m->mem_env);
+	new_env = ft_malloc(sizeof(char *) * i, m->env_vars);
 	if (!new_env)
 		return (1);
 	if (tar_idx != -1)

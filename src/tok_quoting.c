@@ -8,7 +8,9 @@ static bool	new_tok(t_mini *m, int size, int pos)
 
 	new_tok = ft_malloc(sizeof(t_token), m->mem);
 	if (!new_tok)
-		return (1);
+		return (1);;
+;
+
 	ft_memset(new_tok, 0, sizeof(t_token));
 	m->t_tail->next = new_tok;
 	m->t_tail = new_tok;

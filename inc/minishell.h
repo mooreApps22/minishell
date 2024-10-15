@@ -83,7 +83,7 @@ typedef struct s_mini
 {
 	struct termios	terminal;
 	long long		exit_status;
-	t_list			*mem_env;
+	t_list			*env_vars; // *mem_env
 	t_list			*mem;
 	t_token			*t_head;
 	t_token			*t_tail;

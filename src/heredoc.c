@@ -25,12 +25,11 @@ static void	heredoc_process(t_mini *m, t_hdc hdc)
 
 	signal(SIGINT, handle_sigint_hdc);
 	size = ft_strlen(hdc.eof);
-	write(1, "> ", 2);
 	buf = get_next_line(0);
 	while (buf)
 	{
-		if (ft_strncmp(buf, hdc.eof, size) == 0)
-			if (buf[size] == '\n')
+		write(1, "> ", 2);
+		if (ft_strncmp(buf, hdc.eof, size) == 0 && buf[size] == '\n')
 				break ;
 		if (get_env_str(m, &buf))
 		{
@@ -42,6 +41,7 @@ static void	heredoc_process(t_mini *m, t_hdc hdc)
 	}
 	if (!buf)
 		print_warning(hdc.eof);
+	close(hdc.pipe[1]);
 	exit(0);
 }
 

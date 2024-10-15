@@ -17,7 +17,7 @@ static void	nested_shell_count(t_mini *m)
 	}
 	free(lv_tmp);
 	m_export(m, tmp, NULL);
-	ft_lstlast(m->mem_env)->next = ft_lstnew(tmp);
+	ft_lstlast(m->env_vars)->next = ft_lstnew(tmp);
 }
 
 static void	load_env_variables(t_mini *m)
@@ -33,7 +33,7 @@ static void	load_env_variables(t_mini *m)
 		exit(1);
 	}
 	m_export(m, tmp, NULL);
-	ft_lstlast(m->mem_env)->next = ft_lstnew(tmp);
+	ft_lstlast(m->env_vars)->next = ft_lstnew(tmp);
 	nested_shell_count(m);
 }
 
@@ -45,10 +45,7 @@ void	config_terminal(t_mini *m)
 	tcgetattr(STDIN_FILENO, &m->terminal);
 	termios = m->terminal;
 	termios.c_lflag &= ~ECHOCTL;
-//	termios.c_lflag |= (ECHO | ICANON | ISIG);	
-	termios.c_lflag &= ICANON;	
-	termios.c_lflag |= ECHO;	
-	termios.c_lflag |= ISIG;
+	termios.c_lflag |= (ECHO | ICANON | ISIG);	
 	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
 }
 
@@ -59,8 +56,8 @@ int	main(void)
 	init_signal();
 	config_terminal(&m);
 	m.exit_status = 0;
-	m.mem_env = ft_lstnew(NULL);
-	if (!m.mem_env)
+	m.env_vars = ft_lstnew(NULL);
+	if (!m.env_vars)
 	{
 		perror("minishell");
 		exit(1);
@@ -73,6 +70,6 @@ int	main(void)
 	}
 	load_env_variables(&m);
 	main_loop(&m);
-	ft_free_all(m.mem_env);
+	ft_free_all(m.env_vars);
 	exit(0);
 }

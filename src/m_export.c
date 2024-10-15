@@ -11,7 +11,7 @@ bool	env_size_inc(t_mini *m, char *new_str)
 	size = 2;
 	while (__environ[size - 2])
 		size++;
-	new_env = ft_malloc(sizeof(char *) * size, m->mem_env);
+	new_env = ft_malloc(sizeof(char *) * size, m->env_vars);
 	if (!new_env)
 		return (1);
 	i = 0;
@@ -21,10 +21,10 @@ bool	env_size_inc(t_mini *m, char *new_str)
 		i++;
 	}
 	tmp = ft_strdup(new_str);
-	ft_lstlast(m->mem_env)->next = ft_lstnew(tmp);
+	ft_lstlast(m->env_vars)->next = ft_lstnew(tmp);
 	new_env[i] = tmp;
 	new_env[i + 1] = NULL;
-	ft_free(__environ, m->mem_env);
+	ft_free(__environ, m->env_vars);
 	__environ = new_env;
 	return (0);
 }
@@ -44,9 +44,9 @@ bool	is_exist_export(t_mini *m, char *target)
 	{
 		if (ft_strncmp(__environ[i], target, equal_mark) == 0)
 		{
-			ft_free(__environ[i], m->mem_env);
+			ft_free(__environ[i], m->env_vars);
 			tmp = ft_strdup(target);
-			ft_lstlast(m->mem_env)->next = ft_lstnew(tmp);
+			ft_lstlast(m->env_vars)->next = ft_lstnew(tmp);
 			__environ[i] = tmp;
 			return (1);
 		}
