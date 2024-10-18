@@ -1,34 +1,34 @@
 
 #include "../inc/tokens.h"
 
-static bool	new_tok(t_mini *m, int size, int pos)
+static bool	new_token(t_mini *m, int size, int pos)
 {
-	t_token	*new_tok;
+	t_token	*new;
 	int		i;
 
-	new_tok = ft_malloc(sizeof(t_token), m->mem);
-	if (!new_tok)
-		return (1);;
+	new = ft_malloc(sizeof(t_token), m->mem);
+	if (!new)
+		return (1);
 ;
 
-	ft_memset(new_tok, 0, sizeof(t_token));
-	m->t_tail->next = new_tok;
-	m->t_tail = new_tok;
+	ft_memset(new, 0, sizeof(t_token));
+	m->t_tail->next = new;
+	m->t_tail = new;
 	m->a_size++;
-	new_tok->cont = ft_malloc(size, m->mem);
-	if (!new_tok->cont)
+	new->cont = ft_malloc(size, m->mem);
+	if (!new->cont)
 		return (1);
-	ft_strlcpy(new_tok->cont, m->input + pos + 1, size);
-	new_tok->end_pos = pos + size;
-	new_tok->pos = pos;
-	new_tok->type = ARG;
+	ft_strlcpy(new->cont, m->input + pos + 1, size);
+	new->end_pos = pos + size;
+	new->pos = pos;
+	new->type = ARG;
 	i = 0;
 	while (i <= size)
 	{
 		m->input[pos + i] = '\'';
 		i++;
 	}
-	new_tok->is_div = 0;
+	new->can_split = 0;
 	return (0);
 }
 
@@ -43,7 +43,7 @@ static bool	single_quotes(t_mini *m, int *pos)
 	{
 		if (m->input[*pos + size] == '\'')
 		{
-			if (new_tok(m, size, *pos))
+			if (new_token(m, size, *pos))
 				return (1);
 			*pos += size;
 			flag = 0;
@@ -67,7 +67,7 @@ static bool	double_quotes(t_mini *m, int *pos)
 	{
 		if (m->input[*pos + size] == '\"')
 		{
-			new_tok(m, size, *pos);
+			new_token(m, size, *pos);
 			*pos += size;
 			flag = 0;
 			break ;
@@ -80,7 +80,7 @@ static bool	double_quotes(t_mini *m, int *pos)
 	return (0);
 }
 
-bool	quoting(t_mini *m)
+bool	handle_quotes(t_mini *m)
 {
 	int	i;
 

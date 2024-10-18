@@ -15,7 +15,7 @@ static bool	new_tok(t_mini *m, int pos)
 	m->b_size++;
 	new->end_pos = -1;
 	new->pos = pos;
-	new->is_div = 0;
+	new->can_split = 0;
 	return (0);
 }
 
@@ -55,7 +55,7 @@ static bool	left_shift(t_mini *m, int *i)
 	return (0);
 }
 
-bool	redir(t_mini *m)
+bool	redirection(t_mini *m)
 {
 	int	i;
 

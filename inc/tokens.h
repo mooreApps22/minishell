@@ -6,20 +6,20 @@
 
 typedef struct s_sort
 {
-	t_token	*a_now;
-	t_token	*b_now;
-	int		idx_a;
-	int		idx_b;
+	t_token	*a_cur;
+	t_token	*b_cur;
+	int		a_i;
+	int		b_i;
 }				t_sort;
 
-bool	quoting(t_mini *m);
+bool	handle_quotes(t_mini *m);
 bool	tokenize_input(t_mini *m);
-bool	redir(t_mini *m);
-void	sort(t_mini *m);
+bool	redirection(t_mini *m);
+void	merge_sort_tokens(t_mini *m);
 bool	extract_tokens(t_mini *m, char *str, char *delims);
 
-bool	join(t_mini *m);
-bool	pipeline(t_mini *m);
-void	type(t_mini *m);
+bool	merge_adjacent_tokens(t_mini *m);
+bool	tokenize_pipeline(t_mini *m);
+void	assign_token_type(t_mini *m);
 
 #endif

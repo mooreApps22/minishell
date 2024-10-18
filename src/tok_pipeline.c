@@ -1,31 +1,31 @@
 
 #include "../inc/tokens.h"
 
-static bool	new_tok(t_mini *m, int idx)
+static bool	new_token(t_mini *m, int idx)
 {
-	t_token	*new_tok;
+	t_token	*new;
 
-	new_tok = ft_malloc(sizeof(t_token), m->mem);
-	if (!new_tok)
+	new = ft_malloc(sizeof(t_token), m->mem);
+	if (!new)
 		return (1);
-	new_tok->next = NULL;
-	new_tok->cont = NULL;
-	m->t_tail->next = new_tok;
-	m->t_tail = new_tok;
+	new->next = NULL;
+	new->cont = NULL;
+	m->t_tail->next = new;
+	m->t_tail = new;
 	m->b_size++;
-	new_tok->cont = ft_malloc(2, m->mem);
-	if (!new_tok->cont)
+	new->cont = ft_malloc(2, m->mem);
+	if (!new->cont)
 		return (1);
-	new_tok->cont[0] = '|';
-	new_tok->cont[1] = '\0';
-	new_tok->end_pos = -1;
-	new_tok->pos = idx;
-	new_tok->type = PIPE;
-	new_tok->is_div = 0;
+	new->cont[0] = '|';
+	new->cont[1] = '\0';
+	new->end_pos = -1;
+	new->pos = idx;
+	new->type = PIPE;
+	new->can_split = 0;
 	return (0);
 }
 
-bool	pipeline(t_mini *m)
+bool	tokenize_pipeline(t_mini *m)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ bool	pipeline(t_mini *m)
 	while (m->input[i])
 	{
 		if (m->input[i] == '|')
-			if (new_tok(m, i))
+			if (new_token(m, i))
 				return (1);
 		i++;
 	}

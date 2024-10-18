@@ -1,56 +1,56 @@
 
 #include "../inc/tokens.h"
 
-static void	get_s(t_mini *m, t_sort *s)
+static void	init_merge_ptrs(t_mini *m, t_sort *s)
 {
 	int		i;
-	t_token	*now;
+	t_token	*current;
 
-	s->a_now = m->t_head->next;
-	now = m->t_head->next;
+	s->a_cur = m->t_head->next;
+	current = m->t_head->next;
 	i = 0;
 	while (i++ < m->a_size)
-		now = now->next;
-	s->b_now = now;
-	s->idx_a = 0;
-	s->idx_b = 0;
+		current = current->next;
+	s->b_cur = current;
+	s->a_i = 0;
+	s->b_i = 0;
 }
 
-static void	merge(t_mini *m, t_sort *s)
+static void	merge_single_token(t_mini *m, t_sort *s)
 {
-	if (s->a_now->pos > s->b_now->pos)
+	if (s->a_cur->pos > s->b_cur->pos)
 	{
-		s->idx_b++;
-		m->t_tail->next = s->b_now;
-		s->b_now = s->b_now->next;
+		s->b_i++;
+		m->t_tail->next = s->b_cur;
+		s->b_cur = s->b_cur->next;
 	}
 	else
 	{
-		s->idx_a++;
-		m->t_tail->next = s->a_now;
-		s->a_now = s->a_now->next;
+		s->a_i++;
+		m->t_tail->next = s->a_cur;
+		s->a_cur = s->a_cur->next;
 	}
 	m->t_tail = m->t_tail->next;
 }
 
-void	sort(t_mini *m)
+void	merge_sort_tokens(t_mini *m)
 {
 	t_sort	s;
 
-	get_s(m, &s);
+	init_merge_ptrs(m, &s);
 	m->t_tail = m->t_head;
-	while (s.idx_a < m->a_size && s.idx_b < m->b_size)
-		merge(m, &s);
-	if (s.idx_a == m->a_size)
+	while (s.a_i < m->a_size && s.b_i < m->b_size)
+		merge_single_token(m, &s);
+	if (s.a_i == m->a_size)
 	{
-		m->t_tail->next = s.b_now;
-		while (s.idx_b++ < m->b_size)
+		m->t_tail->next = s.b_cur;
+		while (s.b_i++ < m->b_size)
 			m->t_tail = m->t_tail->next;
 	}
 	else
 	{
-		m->t_tail->next = s.a_now;
-		while (s.idx_a++ < m->a_size)
+		m->t_tail->next = s.a_cur;
+		while (s.a_i++ < m->a_size)
 			m->t_tail = m->t_tail->next;
 	}
 	m->t_tail->next = NULL;

@@ -1,25 +1,25 @@
 
 #include "../inc/env_tok.h"
 
-static void	set_is_div(t_token *tok, bool is_div, int idx)
+static void	set_can_split(t_token *tok, bool can_split, int idx)
 {
 	if (idx > 0)
 	{
 		if (idx > 1)
 		{
 			if (tok->cont[idx - 1] != '=' && ft_isalpha(tok->cont[idx - 2]))
-				tok->is_div = is_div;
+				tok->can_split = can_split;
 			else
-				tok->is_div = 0;
+				tok->can_split = 0;
 		}
 		else
-			tok->is_div = is_div;
+			tok->can_split = can_split;
 	}
 	else
-		tok->is_div = is_div;
+		tok->can_split = can_split;
 }
 
-int	count(t_token *tok, bool is_div)
+int	count(t_token *tok, bool can_split)
 {
 	int	i;
 	int	ct;
@@ -41,7 +41,7 @@ int	count(t_token *tok, bool is_div)
 				if (i == 1 && tok->cont[i - 1] == '$')
 					continue ;
 				ct++;
-				set_is_div(tok, is_div, i);
+				set_can_split(tok, can_split, i);
 			}
 		}
 	}

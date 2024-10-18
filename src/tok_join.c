@@ -1,40 +1,40 @@
 
 #include "../inc/tokens.h"
 
-static bool	join_do(t_mini *m, t_token *now)
+static bool	merge_two_tokens(t_mini *m, t_token *cur)
 {
-	char	*ctmp;
-	t_token	*ttmp;
+	char	*cont;
+	t_token	*tok;
 
-	ttmp = now->next;
-	ctmp = now->cont;
-	now->cont = ft_strjoin(ctmp, ttmp->cont);
-	ft_lstadd_back(&m->mem, ft_lstnew(now->cont));
-	if (!now->cont)
+	tok = cur->next;
+	cont = cur->cont;
+	cur->cont = ft_strjoin(cont, tok->cont);
+	ft_lstadd_back(&m->mem, ft_lstnew(cur->cont));
+	if (!cur->cont)
 		return (1);
-	ft_free(ctmp, m->mem);
-	ft_free(ttmp->cont, m->mem);
-	now->end_pos = ttmp->end_pos;
-	now->next = ttmp->next;
-	ft_free(ttmp, m->mem);
+	ft_free(cont, m->mem);
+	ft_free(tok->cont, m->mem);
+	cur->end_pos = tok->end_pos;
+	cur->next = tok->next;
+	ft_free(tok, m->mem);
 	return (0);
 }
 
-bool	join(t_mini *m)
+bool	merge_adjacent_tokens(t_mini *m)
 {
-	t_token	*now;
+	t_token	*cur;
 
-	now = m->t_head;
-	while (now->next)
+	cur = m->t_head;
+	while (cur->next)
 	{
-		if (now->end_pos + 1 == now->next->pos && now->next->end_pos != -1)
+		if (cur->end_pos + 1 == cur->next->pos && cur->next->end_pos != -1)
 		{
-			if (join_do(m, now))
+			if (merge_two_tokens(m, cur))
 				return (1);
 		}
 		else
-			now = now->next;
+			cur = cur->next;
 	}
-	m->t_tail = now;
+	m->t_tail = cur;
 	return (0);
 }

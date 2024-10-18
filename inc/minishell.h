@@ -48,7 +48,7 @@ typedef struct	s_token
 	int		pos;
 	int		end_pos;
 	t_type	type;
-	bool	is_div;
+	bool	can_split;
 } t_token;
 
 typedef struct	s_rdr

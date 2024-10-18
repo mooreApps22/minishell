@@ -15,24 +15,24 @@ static bool	check(t_mini *m)
 	return (0);
 }
 
-static bool	new_tok(t_mini *m, char *cont, t_token *prev, t_token *now)
+static bool	new_token(t_mini *m, char *cont, t_token *prev, t_token *now)
 {
-	t_token	*new_tok;
+	t_token	*new;
 
-	new_tok = ft_malloc(sizeof(t_token), m->mem);
-	if (!new_tok)
+	new = ft_malloc(sizeof(t_token), m->mem);
+	if (!new)
 		return (1);
-	new_tok->next = now->next;
-	new_tok->cont = cont;
-	new_tok->type = ARG;
-	prev->next = new_tok;
+	new->next = now->next;
+	new->cont = cont;
+	new->type = ARG;
+	prev->next = new;
 	if (prev == m->t_tail)
-		m->t_tail = new_tok;
+		m->t_tail = new;
 	m->a_size++;
 	return (0);
 }
 
-static bool	divide_tok_lp(t_mini *m, t_token **prev, t_token *now, char **tmp)
+static bool	add_split_tokens(t_mini *m, t_token **prev, t_token *now, char **tmp)
 {
 	int		i;
 
@@ -40,7 +40,7 @@ static bool	divide_tok_lp(t_mini *m, t_token **prev, t_token *now, char **tmp)
 	while (tmp[i])
 	{
 		ft_lstadd_back(&m->mem, ft_lstnew(tmp[i]));
-		if (new_tok(m, tmp[i], *prev, now))
+		if (new_token(m, tmp[i], *prev, now))
 			return (1);
 		*prev = (*prev)->next;
 		i++;
@@ -48,26 +48,26 @@ static bool	divide_tok_lp(t_mini *m, t_token **prev, t_token *now, char **tmp)
 	return (0);
 }
 
-static bool	divide_tok(t_mini *m, t_token *prev, t_token *now)
+static bool	divide_tok(t_mini *m, t_token *prev, t_token *current)
 {
 	char	**tmp;
 
-	while (now)
+	while (current)
 	{
-		if (ft_strchr(now->cont, ' ') && now->is_div)
+		if (ft_strchr(current->cont, ' ') && current->can_split)
 		{
-			tmp = ft_split(now->cont, ' ');
+			tmp = ft_split(current->cont, ' ');
 			if (!tmp)
 				return (1);
-			if (divide_tok_lp(m, &prev, now, tmp))
+			if (add_split_tokens(m, &prev, current, tmp))
 				return (1);
-			now = prev->next;
+			current = prev->next;
 			free(tmp);
 		}
 		else
 		{
-			prev = now;
-			now = now->next;
+			prev = current;
+			current = current->next;
 		}
 	}
 	return (0);
@@ -76,24 +76,26 @@ static bool	divide_tok(t_mini *m, t_token *prev, t_token *now)
 bool	tokenizer(t_mini *m)
 {
 	sig_ignore();
-	if (quoting(m))
+	if (handle_quotes(m))
 		return (1);
 	if (tokenize_input(m))
 		return (1);
-	sort(m);
-	if (pipeline(m))
+	merge_sort_tokens(m);
+	if (tokenize_pipeline(m))
 		return (1);
-	sort(m);
-	if (redir(m))
+	merge_sort_tokens(m);
+	if (tokenize_pipeline(m))
+	if (redirection(m))
 		return (1);
-	sort(m);
-	if (join(m))
+	merge_sort_tokens(m);
+	if (tokenize_pipeline(m))
+	if (merge_adjacent_tokens(m))
 		return (1);
 	if (divide_tok(m, m->t_head, m->t_head->next))
 		return (1);
 	if (!m->t_head->next)
 		return (1);
-	type(m);
+	assign_token_type(m);
 	if (check(m))
 		return (1);
 	return (0);

@@ -20,7 +20,7 @@ static bool	new_tok(t_mini *m, char *cont, int size, int idx)
 	ft_strlcpy(new->cont, cont, size + 1);
 	new->end_pos = idx + size;
 	new->pos = idx + 1;
-	new->is_div = 0;
+	new->can_split = 0;
 	return (0);
 }
 

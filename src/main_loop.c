@@ -47,7 +47,8 @@ void	main_loop(t_mini *m)
 			printf("exit\n");
 			break ;
 		}
-		if (m->input[0] == '\0' || ft_strncmp(m->input, "\t", ft_strlen(m->input)) == 0)
+		//if (m->input[0] == '\0' || ft_strncmp(m->input, "\t", ft_strlen(m->input)) == 0)
+		if (m->input[0] == '\0')
 		{
 			re_init_minishell(m);
 			continue ;

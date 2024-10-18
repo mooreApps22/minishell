@@ -51,7 +51,7 @@ static void	type_init(t_mini *m, t_token **now, t_token **prev)
 	(*now) = (*now)->next;
 }
 
-void	type(t_mini *m)
+void	assign_token_type(t_mini *m)
 {
 	t_token	*now;
 	t_token	*prev;
