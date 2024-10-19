@@ -1,60 +1,60 @@
 
 #include "../inc/parse.h"
 
-static int	get_arg_size(t_token *now)
+static int	get_arg_size(t_token *current)
 {
 	int	ct;
 
 	ct = 1;
-	while (now)
+	while (current)
 	{
-		if (now->type == PIPE)
+		if (current->type == PIPE)
 			break ;
-		if (now->type == COMMAND || now->type == ARG)
-			if (now->cont)
-				if (now->cont[0])
+		if (current->type == COMMAND || current->type == ARG)
+			if (current->cont)
+				if (current->cont[0])
 					ct++;
-		now = now->next;
+		current = current->next;
 	}
 	return (ct);
 }
 
-static void	fill_args(t_mini *m, int idx, int arg_size, t_token *now)
+static void	set_command_args(t_mini *m, int idx, int arg_size, t_token *cur)
 {
 	int		i;
 
 	i = 0;
 	while (i < arg_size - 1)
 	{
-		if (now->type == COMMAND || now->type == ARG)
-			if (now->cont)
-				if (now->cont[0])
-					m->cmd[idx].args[i++] = now->cont;
-		now = now->next;
+		if (cur->type == COMMAND || cur->type == ARG)
+			if (cur->cont)
+				if (cur->cont[0])
+					m->cmd[idx].args[i++] = cur->cont;
+		cur = cur->next;
 	}
 	m->cmd[idx].args[i] = NULL;
 	m->cmd[idx].if_executable = 1;
 }
 
-bool	parse_cmd(t_mini *m)
+bool	parse_command_line(t_mini *m)
 {
 	int		i;
 	int		arg_size;
-	t_token	*now;
+	t_token	*cur;
 
-	now = m->t_head->next;
+	cur = m->t_head->next;
 	i = 0;
-	while (i < m->job_size && now)
+	while (i < m->job_size && cur)
 	{
-		arg_size = get_arg_size(now);
+		arg_size = get_arg_size(cur);
 		if (arg_size != 1)
 		{
 			m->cmd[i].args = ft_malloc(arg_size * sizeof(char *), m->mem);
 			if (!m->cmd[i].args)
 				return (1);
-			fill_args(m, i, arg_size, now);
+			set_command_args(m, i, arg_size, cur);
 		}
-		now = next_pipe(now);
+		cur = find_cmd_after_pipe(cur);
 		i++;
 	}
 	return (0);

@@ -1,16 +1,14 @@
 
 #include "../inc/tokens.h"
 
-static bool	check(t_mini *m)
+static bool	check_if_last_token_cntl_ops(t_mini *m)
 {
-	t_token	*now;
+	t_token	*current;
 
-	now = m->t_head->next;
-	while (now->next)
-	{
-		now = now->next;
-	}
-	if (now->type >= 0 && now->type <= 4)
+	current = m->t_head->next;
+	while (current->next)
+		current = current->next;
+	if (current->type >= PIPE && current->type <= HEREDOC)
 		return (1);
 	return (0);
 }
@@ -48,7 +46,7 @@ static bool	add_split_tokens(t_mini *m, t_token **prev, t_token *now, char **tmp
 	return (0);
 }
 
-static bool	divide_tok(t_mini *m, t_token *prev, t_token *current)
+static bool	divide_token(t_mini *m, t_token *prev, t_token *current)
 {
 	char	**tmp;
 
@@ -91,12 +89,12 @@ bool	tokenizer(t_mini *m)
 	if (tokenize_pipeline(m))
 	if (merge_adjacent_tokens(m))
 		return (1);
-	if (divide_tok(m, m->t_head, m->t_head->next))
+	if (divide_token(m, m->t_head, m->t_head->next))
 		return (1);
 	if (!m->t_head->next)
 		return (1);
 	assign_token_type(m);
-	if (check(m))
+	if (check_if_last_token_cntl_ops(m))
 		return (1);
 	return (0);
 }

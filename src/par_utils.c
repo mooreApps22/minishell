@@ -1,16 +1,16 @@
 
 #include "../inc/parse.h"
 
-t_token	*next_pipe(t_token *now)
+t_token	*find_cmd_after_pipe(t_token *current)
 {
-	while (now)
+	while (current)
 	{
-		if (now->type == PIPE)
+		if (current->type == PIPE)
 			break ;
-		now = now->next;
+		current = current->next;
 	}
-	if (now)
-		return (now->next);
+	if (current)
+		return (current->next);
 	else
 		return (NULL);
 }
@@ -34,7 +34,7 @@ bool	rdr_malloc(t_mini *m, int idx)
 	return (0);
 }
 
-void	fill_rdr_nfd(t_cmd *cmd, int idx, t_token *type, t_token *fn)
+void	set_default_fds(t_cmd *cmd, int idx, t_token *type, t_token *fn)
 {
 	if (type->type == APPEND || type->type == REDIR_OUT)
 		cmd->rdr[idx].fd = 1;
@@ -44,7 +44,7 @@ void	fill_rdr_nfd(t_cmd *cmd, int idx, t_token *type, t_token *fn)
 	cmd->rdr[idx].fn = fn->cont;
 }
 
-void	fill_rdr_fd(t_cmd *cmd, int idx, t_token *fd, t_token *fn)
+void	set_custom_fds(t_cmd *cmd, int idx, t_token *fd, t_token *fn)
 {
 	cmd->rdr[idx].fd = ft_atoi(fd->cont);
 	cmd->rdr[idx].type = fd->next->type;

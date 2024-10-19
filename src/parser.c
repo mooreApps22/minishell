@@ -1,27 +1,27 @@
 
 #include "../inc/parse.h"
 
-static int	ct_cmd_size(t_mini *m)
+static int	count_pipes(t_mini *m)
 {
 	int		ct;
-	t_token	*now;
+	t_token	*current;
 
 	ct = 1;
-	now = m->t_head->next;
-	while (now)
+	current = m->t_head->next;
+	while (current)
 	{
-		if (now->type == PIPE)
+		if (current->type == PIPE)
 			ct++;
-		now = now->next;
+		current = current->next;
 	}
 	return (ct);
 }
 
-static bool	init_parse(t_mini *m)
+static bool	init_commands(t_mini *m)
 {
 	int	i;
 
-	m->job_size = ct_cmd_size(m);
+	m->job_size = count_pipes(m);
 	m->cmd = ft_malloc(sizeof(t_cmd) * m->job_size, m->mem);
 	if (!m->cmd)
 		return (1);
@@ -36,11 +36,11 @@ static bool	init_parse(t_mini *m)
 
 bool	parser(t_mini *m)
 {
-	if (init_parse(m))
+	if (init_commands(m))
 		return (1);
-	if (parse_cmd(m))
+	if (parse_command_line(m))
 		return (1);
-	if (parse_redir(m))
+	if (parse_redirect_and_heredoc(m))
 		return (1);
 	return (0);
 }

@@ -30,73 +30,73 @@ static void	get_size(t_mini *m, int idx, t_token *now)
 	m->cmd[idx].hdc_size = ct;
 }
 
-static void	fill_hdc(t_mini *m, int idx, t_token *now)
+static void	assign_heredoc(t_mini *m, int idx, t_token *cur)
 {
 	int	i;
 
 	i = 0;
 	while (i < m->cmd[idx].hdc_size)
 	{
-		if (now->type == FD)
+		if (cur->type == FD)
 		{
-			if (now->next->type == HEREDOC)
+			if (cur->next->type == HEREDOC)
 			{
-				m->cmd[idx].hdc[i].fd = ft_atoi(now->cont);
-				now = now->next->next;
-				m->cmd[idx].hdc[i++].eof = now->cont;
+				m->cmd[idx].hdc[i].fd = ft_atoi(cur->cont);
+				cur = cur->next->next;
+				m->cmd[idx].hdc[i++].eof = cur->cont;
 				i++;
 			}
 		}
-		else if (now->type == HEREDOC)
+		else if (cur->type == HEREDOC)
 		{
 			m->cmd[idx].hdc[i].fd = 0;
-			now = now->next;
-			m->cmd[idx].hdc[i++].eof = now->cont;
+			cur = cur->next;
+			m->cmd[idx].hdc[i++].eof = cur->cont;
 		}
-		now = now->next;
+		cur = cur->next;
 	}
 }
 
-static void	fill_rdr(t_mini *m, int idx, t_token *now)
+static void	assign_redir(t_mini *m, int idx, t_token *cur)
 {
 	int	i;
 
 	i = 0;
 	while (i < m->cmd[idx].rdr_ct)
 	{
-		if (now->type == FD)
+		if (cur->type == FD)
 		{
-			if (now->next->type != HEREDOC)
+			if (cur->next->type != HEREDOC)
 			{
-				fill_rdr_fd(&(m->cmd[idx]), i++, now, now->next->next);
-				now = now->next->next;
+				set_custom_fds(&(m->cmd[idx]), i++, cur, cur->next->next);
+				cur = cur->next->next;
 			}
 		}
-		else if (now->type >= 1 && now->type <= 3)
+		else if (cur->type >= 1 && cur->type <= 3)
 		{
-			fill_rdr_nfd(&(m->cmd[idx]), i++, now, now->next);
-			now = now->next;
+			set_default_fds(&(m->cmd[idx]), i++, cur, cur->next);
+			cur = cur->next;
 		}
-		now = now->next;
+		cur = cur->next;
 	}
 }
 
-bool	parse_redir(t_mini *m)
+bool	parse_redirect_and_heredoc(t_mini *m)
 {
 	int		i;
-	t_token	*now;
+	t_token	*current;
 
-	now = m->t_head->next;
+	current = m->t_head->next;
 	i = 0;
-	while (i < m->job_size && now)
+	while (i < m->job_size && current)
 	{
-		get_size(m, i, now);
+		get_size(m, i, current);
 		if (rdr_malloc(m, i))
 			return (1);
-		fill_rdr(m, i, now);
-		fill_hdc(m, i, now);
+		assign_redir(m, i, current);
+		assign_heredoc(m, i, current);
 		i++;
-		now = next_pipe(now);
+		current = find_cmd_after_pipe(current);
 	}
 	return (0);
 }

@@ -1,7 +1,7 @@
 
 #include "../inc/tokens.h"
 
-static void	type_cmd_dlt_fn(t_token *now, t_token *prev)
+static void	assign_cmd_delim_file_type(t_token *now, t_token *prev)
 {
 	if (prev->type == PIPE || prev->type == FILENAME)
 		now->type = COMMAND;
@@ -17,7 +17,7 @@ static void	type_cmd_dlt_fn(t_token *now, t_token *prev)
 }
 
 //change prev type
-static bool	type_fd(t_token *prev, int pos)
+static bool	if_fd_set(t_token *prev, int pos)
 {
 	if (ft_strlen(prev->cont) != 1)
 		return (0);
@@ -39,7 +39,7 @@ static void	type_init(t_mini *m, t_token **now, t_token **prev)
 		if ((*now)->next->type == REDIR_OUT
 			|| (*now)->next->type == APPEND)
 		{
-			if (!type_fd((*now), (*now)->next->pos))
+			if (!if_fd_set((*now), (*now)->next->pos))
 				(*now)->type = COMMAND;
 		}
 		else if ((*now)->end_pos != -1)
@@ -53,20 +53,20 @@ static void	type_init(t_mini *m, t_token **now, t_token **prev)
 
 void	assign_token_type(t_mini *m)
 {
-	t_token	*now;
+	t_token	*cur;
 	t_token	*prev;
 
-	type_init(m, &now, &prev);
-	while (now)
+	type_init(m, &cur, &prev);
+	while (cur)
 	{
-		if (prev->type != COMMAND && now->end_pos != -1)
-			type_cmd_dlt_fn(now, prev);
+		if (prev->type != COMMAND && cur->end_pos != -1)
+			assign_cmd_delim_file_type(cur, prev);
 		else if ((prev->type == ARG || prev->type == COMMAND)
-			&& (now->type >= 1 && now->type <= 4))
-			type_fd(prev, now->pos);
-		else if (now->end_pos != -1)
-			now->type = ARG;
-		prev = now;
-		now = now->next;
+			&& (cur->type >= 1 && cur->type <= 4))
+			if_fd_set(prev, cur->pos);
+		else if (cur->end_pos != -1)
+			cur->type = ARG;
+		prev = cur;
+		cur = cur->next;
 	}
 }
