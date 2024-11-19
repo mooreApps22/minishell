@@ -73,20 +73,20 @@ static bool	divide_token(t_mini *m, t_token *prev, t_token *current)
 
 bool	tokenizer(t_mini *m)
 {
+	bool	tokenizer(t_mini *m)
+{
 	sig_ignore();
 	if (handle_quotes(m))
 		return (1);
-	if (tokenize_input(m))
+	if (tokenize_input(m)) 
 		return (1);
-	merge_sort_tokens(m);
+	merge_sort_tokens(m); 
 	if (tokenize_pipeline(m))
 		return (1);
 	merge_sort_tokens(m);
-	if (tokenize_pipeline(m))
 	if (redirection(m))
 		return (1);
 	merge_sort_tokens(m);
-	if (tokenize_pipeline(m))
 	if (merge_adjacent_tokens(m))
 		return (1);
 	if (divide_token(m, m->t_head, m->t_head->next))
@@ -97,4 +97,6 @@ bool	tokenizer(t_mini *m)
 	if (check_if_last_token_cntl_ops(m))
 		return (1);
 	return (0);
+}
+
 }
