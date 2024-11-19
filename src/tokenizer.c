@@ -73,8 +73,6 @@ static bool	divide_token(t_mini *m, t_token *prev, t_token *current)
 
 bool	tokenizer(t_mini *m)
 {
-	bool	tokenizer(t_mini *m)
-{
 	sig_ignore();
 	if (handle_quotes(m))
 		return (1);
@@ -97,6 +95,4 @@ bool	tokenizer(t_mini *m)
 	if (check_if_last_token_cntl_ops(m))
 		return (1);
 	return (0);
-}
-
 }
