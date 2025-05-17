@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_termios.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
+/*   By: smoore <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/07 11:52:56 by smoore            #+#    #+#             */
-/*   Updated: 2025/02/12 19:28:20 by smoore           ###   ########.fr       */
+/*   Created: 2025/05/17 15:07:54 by smoore            #+#    #+#             */
+/*   Updated: 2025/05/17 15:09:20 by smoore           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/data.h"
+#include "../inc/data.h"
 
 void	child_sigquit_handler(int signo);
 void	modify_sigquit(int state);
