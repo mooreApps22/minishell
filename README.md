@@ -1,6 +1,6 @@
 Minishell replicates the basic functionality of Bash, a command line interpreter or a Unix shell.
 
-This project is meant to develope the follows skills:
+This project is meant to develop the follows skills:
   - Rigor
   - tokeniztion
   - parsing
